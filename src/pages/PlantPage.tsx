@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { findPlant, wikipediaUrl } from "../data/plants";
 import { CATEGORY_LABEL } from "../data/categories";
 import { locations } from "../data/locations";
@@ -11,6 +11,7 @@ export function PlantPage() {
   const { plantId } = useParams<{ plantId: string }>();
   const plant = plantId ? findPlant(plantId) : undefined;
   const { isSeen, toggleSeen } = useCollection();
+  const navigate = useNavigate();
 
   if (!plant) return <Navigate to="/" replace />;
   const seen = isSeen(plant.id);
@@ -18,14 +19,23 @@ export function PlantPage() {
     plant.locationIds.includes(loc.id),
   );
 
+  function goBack() {
+    const historyState = window.history.state as { idx?: number } | null;
+    if (historyState && typeof historyState.idx === "number" && historyState.idx > 0) {
+      navigate(-1);
+    } else {
+      navigate("/");
+    }
+  }
+
   return (
     <div className="flex flex-col gap-6">
-      <Link
-        to="/"
+      <button
+        onClick={goBack}
         className="flex w-fit items-center gap-1.5 text-sm text-[var(--text-muted)] hover:text-[var(--accent)]"
       >
         ← Toutes les plantes
-      </Link>
+      </button>
 
       <div className="flex flex-col gap-6 rounded-2xl border border-[var(--line)] bg-[var(--paper-raised)] p-6 shadow-[var(--shadow-card)] sm:p-8">
         <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">

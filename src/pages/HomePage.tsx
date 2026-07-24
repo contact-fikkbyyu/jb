@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { plants } from "../data/plants";
 import { findLocation } from "../data/locations";
@@ -10,23 +10,60 @@ import { useInfiniteReveal } from "../hooks/useInfiniteReveal";
 import { useCollection } from "../context/CollectionContext";
 import type { PlantCategory, Rarity } from "../types";
 
+function parseList<T extends string>(value: string | null): Set<T> {
+  return new Set((value ? value.split(",") : []).filter(Boolean) as T[]);
+}
+
 export function HomePage() {
-  const [query, setQuery] = useState("");
-  const [activeCategories, setActiveCategories] = useState<Set<PlantCategory>>(
-    new Set(),
-  );
-  const [activeRarities, setActiveRarities] = useState<Set<Rarity>>(new Set());
-  const [seenFilter, setSeenFilter] = useState<SeenFilter>("toutes");
+  const [searchParams, setSearchParams] = useSearchParams();
   const { isSeen } = useCollection();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("q") ?? "";
+  const activeCategories = useMemo(
+    () => parseList<PlantCategory>(searchParams.get("cat")),
+    [searchParams],
+  );
+  const activeRarities = useMemo(
+    () => parseList<Rarity>(searchParams.get("rarete")),
+    [searchParams],
+  );
+  const seenFilter = (searchParams.get("vue") as SeenFilter) ?? "toutes";
   const locationId = searchParams.get("lieu");
   const location = locationId ? findLocation(locationId) : undefined;
 
-  function clearLocation() {
+  function updateParams(updates: Record<string, string | null>) {
     const next = new URLSearchParams(searchParams);
-    next.delete("lieu");
-    setSearchParams(next);
+    for (const [key, value] of Object.entries(updates)) {
+      if (value === null || value === "") next.delete(key);
+      else next.set(key, value);
+    }
+    setSearchParams(next, { replace: true });
+  }
+
+  function setQuery(value: string) {
+    updateParams({ q: value || null });
+  }
+
+  function toggleCategory(category: PlantCategory) {
+    const next = new Set(activeCategories);
+    if (next.has(category)) next.delete(category);
+    else next.add(category);
+    updateParams({ cat: next.size ? [...next].join(",") : null });
+  }
+
+  function toggleRarity(rarity: Rarity) {
+    const next = new Set(activeRarities);
+    if (next.has(rarity)) next.delete(rarity);
+    else next.add(rarity);
+    updateParams({ rarete: next.size ? [...next].join(",") : null });
+  }
+
+  function setSeenFilter(value: SeenFilter) {
+    updateParams({ vue: value === "toutes" ? null : value });
+  }
+
+  function clearLocation() {
+    updateParams({ lieu: null });
   }
 
   const filteredPlants = useMemo(() => {
@@ -61,24 +98,6 @@ export function HomePage() {
     filteredPlants,
     18,
   );
-
-  function toggleCategory(category: PlantCategory) {
-    setActiveCategories((prev) => {
-      const next = new Set(prev);
-      if (next.has(category)) next.delete(category);
-      else next.add(category);
-      return next;
-    });
-  }
-
-  function toggleRarity(rarity: Rarity) {
-    setActiveRarities((prev) => {
-      const next = new Set(prev);
-      if (next.has(rarity)) next.delete(rarity);
-      else next.add(rarity);
-      return next;
-    });
-  }
 
   return (
     <div className="flex flex-col gap-6">
