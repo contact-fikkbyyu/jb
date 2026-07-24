@@ -1,23 +1,28 @@
-import { useMemo } from "react";
-import { gardens, getAllPlants } from "../data/gardens";
+import { plants } from "../data/plants";
 import { RARITY_LABELS, RARITY_ORDER, RARITY_DOT } from "../data/rarity";
+import { CATEGORY_ORDER, CATEGORY_LABEL, CATEGORY_ICON } from "../data/categories";
 import { PlantCard } from "../components/PlantCard";
 import { useCollection } from "../context/CollectionContext";
 
 export function CollectionPage() {
   const { seenIds } = useCollection();
-  const allPlants = useMemo(() => getAllPlants(), []);
-  const total = allPlants.length;
-  const seenCount = allPlants.filter(({ plant }) => seenIds.has(plant.id)).length;
+  const total = plants.length;
+  const seenCount = plants.filter((plant) => seenIds.has(plant.id)).length;
   const pct = total === 0 ? 0 : Math.round((seenCount / total) * 100);
 
   const rarityStats = RARITY_ORDER.map((rarity) => {
-    const inRarity = allPlants.filter(({ plant }) => plant.rarity === rarity);
-    const seen = inRarity.filter(({ plant }) => seenIds.has(plant.id)).length;
+    const inRarity = plants.filter((plant) => plant.rarity === rarity);
+    const seen = inRarity.filter((plant) => seenIds.has(plant.id)).length;
     return { rarity, seen, total: inRarity.length };
   });
 
-  const seenPlants = allPlants.filter(({ plant }) => seenIds.has(plant.id));
+  const categoryStats = CATEGORY_ORDER.map((category) => {
+    const inCategory = plants.filter((plant) => plant.category === category);
+    const seen = inCategory.filter((plant) => seenIds.has(plant.id)).length;
+    return { category, seen, total: inCategory.length };
+  }).filter((stat) => stat.total > 0);
+
+  const seenPlants = plants.filter((plant) => seenIds.has(plant.id));
 
   return (
     <div className="flex flex-col gap-8">
@@ -72,31 +77,29 @@ export function CollectionPage() {
 
       <div className="flex flex-col gap-3">
         <h2 className="text-sm font-medium uppercase tracking-wide text-[var(--text-muted)]">
-          Progression par jardin
+          Progression par type de plante
         </h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {gardens.map((garden) => {
-            const plants = garden.zones.flatMap((z) => z.plants);
-            const seen = plants.filter((p) => seenIds.has(p.id)).length;
-            const gPct =
-              plants.length === 0 ? 0 : Math.round((seen / plants.length) * 100);
+          {categoryStats.map(({ category, seen, total }) => {
+            const cPct = total === 0 ? 0 : Math.round((seen / total) * 100);
             return (
               <div
-                key={garden.id}
+                key={category}
                 className="rounded-xl border border-[var(--line)] bg-[var(--paper-raised)] p-4"
               >
                 <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium text-[var(--text)]">
-                    {garden.name}
+                  <span className="flex items-center gap-1.5 font-medium text-[var(--text)]">
+                    <span>{CATEGORY_ICON[category]}</span>
+                    {CATEGORY_LABEL[category]}
                   </span>
                   <span className="text-[var(--text-muted)] tabular-nums">
-                    {seen}/{plants.length}
+                    {seen}/{total}
                   </span>
                 </div>
                 <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[var(--paper-sunken)]">
                   <div
                     className="h-full rounded-full bg-[var(--accent)]"
-                    style={{ width: `${gPct}%` }}
+                    style={{ width: `${cPct}%` }}
                   />
                 </div>
               </div>
@@ -111,19 +114,14 @@ export function CollectionPage() {
         </h2>
         {seenPlants.length === 0 ? (
           <p className="text-[var(--text-muted)]">
-            Vous n'avez pas encore marqué de plante comme vue. Parcourez un
-            jardin et cliquez sur le bouton ○ d'une plante pour commencer
+            Vous n'avez pas encore marqué de plante comme vue. Parcourez
+            l'herbier et cliquez sur le bouton ○ d'une plante pour commencer
             votre collection !
           </p>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {seenPlants.map(({ garden, zone, plant }) => (
-              <PlantCard
-                key={plant.id}
-                plant={plant}
-                zoneType={zone.type}
-                subtitle={`${garden.name} · ${zone.name}`}
-              />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {seenPlants.map((plant) => (
+              <PlantCard key={plant.id} plant={plant} />
             ))}
           </div>
         )}

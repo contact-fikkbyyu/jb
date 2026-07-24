@@ -1,5 +1,5 @@
-import type { Plant, ZoneType } from "../types";
-import { ZONE_TYPE_GRADIENT } from "../data/rarity";
+import type { Plant } from "../types";
+import { CATEGORY_GRADIENT } from "../data/categories";
 
 const SIZES = {
   sm: { wrap: "h-16 w-16", emoji: "text-2xl", ring: "ring-2" },
@@ -9,17 +9,15 @@ const SIZES = {
 
 export function PlantIllustration({
   plant,
-  zoneType,
   size = "md",
 }: {
   plant: Plant;
-  zoneType: ZoneType;
   size?: keyof typeof SIZES;
 }) {
   const s = SIZES[size];
   return (
     <div
-      className={`relative shrink-0 ${s.wrap} rounded-full bg-gradient-to-br ${ZONE_TYPE_GRADIENT[zoneType]} ${s.ring} ring-[var(--paper-raised)] shadow-[var(--shadow-card)]`}
+      className={`relative shrink-0 ${s.wrap} rounded-full bg-gradient-to-br ${CATEGORY_GRADIENT[plant.category]} ${s.ring} ring-[var(--paper-raised)] shadow-[var(--shadow-card)]`}
     >
       <svg
         viewBox="0 0 100 100"

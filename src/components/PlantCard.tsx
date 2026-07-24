@@ -1,20 +1,12 @@
 import { Link } from "react-router-dom";
-import type { Plant, ZoneType } from "../types";
+import type { Plant } from "../types";
 import { RarityBadge } from "./RarityBadge";
 import { SeenBadge } from "./SeenBadge";
 import { PlantIllustration } from "./PlantIllustration";
+import { CATEGORY_LABEL } from "../data/categories";
 import { useCollection } from "../context/CollectionContext";
 
-export function PlantCard({
-  plant,
-  zoneType,
-  subtitle,
-}: {
-  plant: Plant;
-  zoneType: ZoneType;
-  /** Optional secondary line, e.g. garden / zone name for global search results */
-  subtitle?: string;
-}) {
+export function PlantCard({ plant }: { plant: Plant }) {
   const { isSeen, toggleSeen } = useCollection();
   const seen = isSeen(plant.id);
 
@@ -39,7 +31,7 @@ export function PlantCard({
       </button>
 
       <Link to={`/plante/${plant.id}`} className="flex flex-col gap-3 pr-8">
-        <PlantIllustration plant={plant} zoneType={zoneType} />
+        <PlantIllustration plant={plant} />
         <div>
           <h3 className="font-display text-lg font-semibold leading-snug text-[var(--ink)]">
             {plant.name}
@@ -47,11 +39,9 @@ export function PlantCard({
           <p className="text-sm italic text-[var(--text-muted)]">
             {plant.latinName}
           </p>
-          {subtitle && (
-            <p className="mt-0.5 text-xs text-[var(--text-muted)]">
-              {subtitle}
-            </p>
-          )}
+          <p className="mt-0.5 text-xs text-[var(--text-muted)]">
+            {CATEGORY_LABEL[plant.category]}
+          </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <RarityBadge rarity={plant.rarity} />

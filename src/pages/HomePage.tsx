@@ -1,23 +1,74 @@
 import { useMemo, useState } from "react";
-import { gardens, searchPlants } from "../data/gardens";
-import { GardenCard } from "../components/GardenCard";
+import { plants } from "../data/plants";
 import { PlantCard } from "../components/PlantCard";
 import { SearchBar } from "../components/SearchBar";
+import { CategoryFilter } from "../components/CategoryFilter";
+import { FilterBar, type SeenFilter } from "../components/FilterBar";
+import { useInfiniteReveal } from "../hooks/useInfiniteReveal";
+import { useCollection } from "../context/CollectionContext";
+import type { PlantCategory, Rarity } from "../types";
 
 export function HomePage() {
   const [query, setQuery] = useState("");
+  const [activeCategories, setActiveCategories] = useState<Set<PlantCategory>>(
+    new Set(),
+  );
+  const [activeRarities, setActiveRarities] = useState<Set<Rarity>>(new Set());
+  const [seenFilter, setSeenFilter] = useState<SeenFilter>("toutes");
+  const { isSeen } = useCollection();
 
-  const results = useMemo(() => searchPlants(query), [query]);
+  const filteredPlants = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return plants.filter((plant) => {
+      const matchesQuery =
+        !q ||
+        plant.name.toLowerCase().includes(q) ||
+        plant.latinName.toLowerCase().includes(q);
+      const matchesCategory =
+        activeCategories.size === 0 || activeCategories.has(plant.category);
+      const matchesRarity =
+        activeRarities.size === 0 || activeRarities.has(plant.rarity);
+      const seen = isSeen(plant.id);
+      const matchesSeen =
+        seenFilter === "toutes" ||
+        (seenFilter === "vues" && seen) ||
+        (seenFilter === "non-vues" && !seen);
+      return matchesQuery && matchesCategory && matchesRarity && matchesSeen;
+    });
+  }, [query, activeCategories, activeRarities, seenFilter, isSeen]);
+
+  const { visibleItems, sentinelRef, hasMore } = useInfiniteReveal(
+    filteredPlants,
+    18,
+  );
+
+  function toggleCategory(category: PlantCategory) {
+    setActiveCategories((prev) => {
+      const next = new Set(prev);
+      if (next.has(category)) next.delete(category);
+      else next.add(category);
+      return next;
+    });
+  }
+
+  function toggleRarity(rarity: Rarity) {
+    setActiveRarities((prev) => {
+      const next = new Set(prev);
+      if (next.has(rarity)) next.delete(rarity);
+      else next.add(rarity);
+      return next;
+    });
+  }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
         <h1 className="font-display text-4xl font-semibold tracking-tight text-[var(--ink)]">
-          Explorez les jardins botaniques
+          Explorez l'herbier
         </h1>
         <p className="max-w-lg text-[var(--text)]">
-          Recherchez une plante par son nom, ou parcourez un jardin espace par
-          espace pour découvrir ses secrets.
+          {plants.length} plantes référencées, chacune avec une anecdote
+          insolite. Cherchez un nom, filtrez par type ou par rareté.
         </p>
         <SearchBar
           value={query}
@@ -26,39 +77,43 @@ export function HomePage() {
         />
       </div>
 
-      {query.trim() ? (
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-medium uppercase tracking-wide text-[var(--text-muted)]">
-            {results.length} résultat{results.length !== 1 ? "s" : ""}
-          </h2>
-          {results.length === 0 ? (
-            <p className="text-[var(--text-muted)]">
-              Aucune plante ne correspond à votre recherche.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {results.map(({ garden, zone, plant }) => (
-                <PlantCard
-                  key={plant.id}
-                  plant={plant}
-                  zoneType={zone.type}
-                  subtitle={`${garden.name} · ${zone.name}`}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+      <div className="flex flex-col gap-3">
+        <CategoryFilter active={activeCategories} onToggle={toggleCategory} />
+        <FilterBar
+          activeRarities={activeRarities}
+          onToggleRarity={toggleRarity}
+          seenFilter={seenFilter}
+          onSeenFilterChange={setSeenFilter}
+        />
+      </div>
+
+      <p className="text-sm font-medium uppercase tracking-wide text-[var(--text-muted)]">
+        {filteredPlants.length} plante{filteredPlants.length !== 1 ? "s" : ""}
+      </p>
+
+      {filteredPlants.length === 0 ? (
+        <p className="text-[var(--text-muted)]">
+          Aucune plante ne correspond à votre recherche.
+        </p>
       ) : (
-        <section className="flex flex-col gap-4">
-          <h2 className="text-sm font-medium uppercase tracking-wide text-[var(--text-muted)]">
-            Jardins
-          </h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {gardens.map((garden) => (
-              <GardenCard key={garden.id} garden={garden} />
+        <>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {visibleItems.map((plant) => (
+              <PlantCard key={plant.id} plant={plant} />
             ))}
           </div>
-        </section>
+          {hasMore ? (
+            <div ref={sentinelRef} className="flex justify-center py-6">
+              <span className="text-sm text-[var(--text-muted)]">
+                Chargement de plantes supplémentaires…
+              </span>
+            </div>
+          ) : (
+            <p className="py-6 text-center text-sm text-[var(--text-muted)]">
+              Vous avez atteint la fin de l'herbier 🌿
+            </p>
+          )}
+        </>
       )}
     </div>
   );

@@ -1,6 +1,6 @@
-import { Navigate, useParams } from "react-router-dom";
-import { findPlant } from "../data/gardens";
-import { Breadcrumbs } from "../components/Breadcrumbs";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { findPlant, wikipediaUrl } from "../data/plants";
+import { CATEGORY_LABEL } from "../data/categories";
 import { RarityBadge } from "../components/RarityBadge";
 import { SeenBadge } from "../components/SeenBadge";
 import { PlantIllustration } from "../components/PlantIllustration";
@@ -8,34 +8,34 @@ import { useCollection } from "../context/CollectionContext";
 
 export function PlantPage() {
   const { plantId } = useParams<{ plantId: string }>();
-  const found = plantId ? findPlant(plantId) : undefined;
+  const plant = plantId ? findPlant(plantId) : undefined;
   const { isSeen, toggleSeen } = useCollection();
 
-  if (!found) return <Navigate to="/" replace />;
-  const { garden, zone, plant } = found;
+  if (!plant) return <Navigate to="/" replace />;
   const seen = isSeen(plant.id);
 
   return (
     <div className="flex flex-col gap-6">
-      <Breadcrumbs
-        items={[
-          { label: "Jardins", to: "/" },
-          { label: garden.name, to: `/jardin/${garden.id}` },
-          { label: zone.name, to: `/jardin/${garden.id}/espace/${zone.id}` },
-          { label: plant.name },
-        ]}
-      />
+      <Link
+        to="/"
+        className="flex w-fit items-center gap-1.5 text-sm text-[var(--text-muted)] hover:text-[var(--accent)]"
+      >
+        ← Toutes les plantes
+      </Link>
 
       <div className="flex flex-col gap-6 rounded-2xl border border-[var(--line)] bg-[var(--paper-raised)] p-6 shadow-[var(--shadow-card)] sm:p-8">
         <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-5">
-            <PlantIllustration plant={plant} zoneType={zone.type} size="lg" />
+            <PlantIllustration plant={plant} size="lg" />
             <div>
               <h1 className="font-display text-3xl font-semibold tracking-tight text-[var(--ink)]">
                 {plant.name}
               </h1>
               <p className="italic text-[var(--text-muted)]">
                 {plant.latinName}
+              </p>
+              <p className="mt-0.5 text-sm text-[var(--text-muted)]">
+                {CATEGORY_LABEL[plant.category]}
               </p>
             </div>
           </div>
@@ -52,18 +52,28 @@ export function PlantPage() {
           <p className="leading-relaxed text-[var(--text)]">{plant.funFact}</p>
         </div>
 
-        <button
-          onClick={() => toggleSeen(plant.id)}
-          className={`self-start rounded-full px-5 py-2.5 text-sm font-medium transition ${
-            seen
-              ? "bg-[var(--paper-sunken)] text-[var(--text)] hover:bg-[var(--line)]"
-              : "bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)]"
-          }`}
-        >
-          {seen
-            ? "✓ Marquée comme vue — retirer"
-            : "Marquer cette plante comme vue"}
-        </button>
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            onClick={() => toggleSeen(plant.id)}
+            className={`rounded-full px-5 py-2.5 text-sm font-medium transition ${
+              seen
+                ? "bg-[var(--paper-sunken)] text-[var(--text)] hover:bg-[var(--line)]"
+                : "bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)]"
+            }`}
+          >
+            {seen
+              ? "✓ Marquée comme vue — retirer"
+              : "Marquer cette plante comme vue"}
+          </button>
+          <a
+            href={wikipediaUrl(plant)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 rounded-full border border-[var(--line)] px-5 py-2.5 text-sm font-medium text-[var(--text)] transition hover:border-[var(--line-strong)] hover:text-[var(--ink)]"
+          >
+            Voir sur Wikipédia ↗
+          </a>
+        </div>
       </div>
     </div>
   );
