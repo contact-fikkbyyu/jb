@@ -1,14 +1,17 @@
 import { Link } from "react-router-dom";
-import type { Plant } from "../types";
+import type { Plant, ZoneType } from "../types";
 import { RarityBadge } from "./RarityBadge";
 import { SeenBadge } from "./SeenBadge";
+import { PlantIllustration } from "./PlantIllustration";
 import { useCollection } from "../context/CollectionContext";
 
 export function PlantCard({
   plant,
+  zoneType,
   subtitle,
 }: {
   plant: Plant;
+  zoneType: ZoneType;
   /** Optional secondary line, e.g. garden / zone name for global search results */
   subtitle?: string;
 }) {
@@ -17,10 +20,10 @@ export function PlantCard({
 
   return (
     <div
-      className={`group relative flex flex-col gap-2 rounded-2xl border p-4 shadow-sm transition hover:shadow-md ${
+      className={`group relative flex flex-col gap-3 rounded-2xl border p-4 transition hover:shadow-[var(--shadow-card-hover)] ${
         seen
-          ? "border-green-300 bg-green-50/60"
-          : "border-stone-200 bg-white"
+          ? "border-[var(--accent-soft-line)] bg-[var(--accent-soft)]"
+          : "border-[var(--line)] bg-[var(--paper-raised)] shadow-[var(--shadow-card)]"
       }`}
     >
       <button
@@ -28,25 +31,29 @@ export function PlantCard({
         title={seen ? "Marquer comme non vue" : "Marquer comme vue"}
         className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-lg transition ${
           seen
-            ? "bg-green-600 text-white"
-            : "bg-stone-100 text-stone-400 hover:bg-stone-200"
+            ? "bg-[var(--accent)] text-white"
+            : "bg-[var(--paper-sunken)] text-[var(--text-muted)] hover:text-[var(--text)]"
         }`}
       >
         {seen ? "✓" : "○"}
       </button>
 
-      <Link to={`/plante/${plant.id}`} className="flex flex-col gap-2 pr-8">
-        <span className="text-4xl">{plant.emoji}</span>
+      <Link to={`/plante/${plant.id}`} className="flex flex-col gap-3 pr-8">
+        <PlantIllustration plant={plant} zoneType={zoneType} />
         <div>
-          <h3 className="font-serif text-lg font-semibold text-stone-800">
+          <h3 className="font-display text-lg font-semibold leading-snug text-[var(--ink)]">
             {plant.name}
           </h3>
-          <p className="text-sm italic text-stone-500">{plant.latinName}</p>
+          <p className="text-sm italic text-[var(--text-muted)]">
+            {plant.latinName}
+          </p>
           {subtitle && (
-            <p className="mt-0.5 text-xs text-stone-400">{subtitle}</p>
+            <p className="mt-0.5 text-xs text-[var(--text-muted)]">
+              {subtitle}
+            </p>
           )}
         </div>
-        <div className="mt-1 flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <RarityBadge rarity={plant.rarity} />
           {seen && <SeenBadge />}
         </div>

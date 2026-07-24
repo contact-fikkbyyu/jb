@@ -19,18 +19,18 @@ export function GardenPage() {
       <Breadcrumbs items={[{ label: "Jardins", to: "/" }, { label: garden.name }]} />
 
       <div className="flex flex-col gap-2">
-        <h1 className="font-serif text-3xl font-semibold text-stone-800">
+        <h1 className="font-display text-3xl font-semibold tracking-tight text-[var(--ink)]">
           {garden.name}
         </h1>
-        <p className="text-sm text-stone-500">{garden.city}</p>
-        <p className="text-stone-600">{garden.description}</p>
-        <p className="text-sm font-semibold text-green-700">
+        <p className="text-sm text-[var(--text-muted)]">{garden.city}</p>
+        <p className="max-w-lg text-[var(--text)]">{garden.description}</p>
+        <p className="text-sm font-medium text-[var(--accent)] tabular-nums">
           {seenCount}/{plants.length} plantes découvertes
         </p>
       </div>
 
       <section className="flex flex-col gap-4">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-stone-500">
+        <h2 className="text-sm font-medium uppercase tracking-wide text-[var(--text-muted)]">
           Espaces
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

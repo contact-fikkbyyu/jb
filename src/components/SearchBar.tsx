@@ -9,7 +9,7 @@ export function SearchBar({
 }) {
   return (
     <div className="relative">
-      <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">
+      <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">
         🔍
       </span>
       <input
@@ -17,7 +17,7 @@ export function SearchBar({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-full border border-stone-300 bg-white py-2.5 pl-10 pr-4 text-sm text-stone-800 shadow-sm outline-none placeholder:text-stone-400 focus:border-green-500 focus:ring-2 focus:ring-green-200"
+        className="w-full rounded-full border border-[var(--line)] bg-[var(--paper-raised)] py-3 pl-11 pr-4 text-sm text-[var(--ink)] shadow-[var(--shadow-card)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-soft)]"
       />
     </div>
   );

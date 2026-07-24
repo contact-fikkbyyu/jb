@@ -6,16 +6,16 @@ export function Breadcrumbs({
   items: { label: string; to?: string }[];
 }) {
   return (
-    <nav className="mb-4 flex flex-wrap items-center gap-1 text-sm text-stone-500">
+    <nav className="mb-5 flex flex-wrap items-center gap-1.5 text-sm text-[var(--text-muted)]">
       {items.map((item, i) => (
-        <span key={i} className="flex items-center gap-1">
-          {i > 0 && <span className="text-stone-300">/</span>}
+        <span key={i} className="flex items-center gap-1.5">
+          {i > 0 && <span className="text-[var(--line-strong)]">/</span>}
           {item.to ? (
-            <Link to={item.to} className="hover:text-green-700">
+            <Link to={item.to} className="hover:text-[var(--accent)]">
               {item.label}
             </Link>
           ) : (
-            <span className="text-stone-700">{item.label}</span>
+            <span className="text-[var(--text)]">{item.label}</span>
           )}
         </span>
       ))}

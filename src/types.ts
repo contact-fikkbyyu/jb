@@ -6,7 +6,9 @@ export type ZoneType =
   | "japonais"
   | "roseraie"
   | "alpin"
-  | "orchidees";
+  | "orchidees"
+  | "mediterraneen"
+  | "exotique";
 
 export interface Plant {
   id: string;

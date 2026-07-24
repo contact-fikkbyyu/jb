@@ -1,6 +1,88 @@
 @import "tailwindcss";
 
+@theme {
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-body: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --paper: #f5f6ee;
+  --paper-raised: #ffffff;
+  --paper-sunken: #eef0e2;
+  --ink: #202b1f;
+  --text: #46503f;
+  --text-muted: #767f6c;
+  --line: #dbdfc9;
+  --line-strong: #c3c9ab;
+
+  --accent: #3d6b46;
+  --accent-hover: #2f5536;
+  --accent-soft: #e7efe0;
+  --accent-soft-line: #c3d9c1;
+
+  --gold: #a8781f;
+  --gold-soft: #f4e9d2;
+
+  --rarity-commune-bg: #eceee3;
+  --rarity-commune-fg: #5b6152;
+  --rarity-peu-bg: #dfeee0;
+  --rarity-peu-fg: #2f6b3c;
+  --rarity-rare-bg: #dce8f0;
+  --rarity-rare-fg: #2b5a78;
+  --rarity-except-bg: #f6e6c8;
+  --rarity-except-fg: #8a5a12;
+
+  --shadow-card: 0 1px 2px rgba(32, 43, 31, 0.06), 0 1px 1px rgba(32, 43, 31, 0.04);
+  --shadow-card-hover: 0 8px 20px rgba(32, 43, 31, 0.1), 0 2px 6px rgba(32, 43, 31, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #161a13;
+    --paper-raised: #1e2419;
+    --paper-sunken: #10130e;
+    --ink: #edf0e3;
+    --text: #c1c8b4;
+    --text-muted: #85907a;
+    --line: #313a29;
+    --line-strong: #454f3b;
+
+    --accent: #7ec488;
+    --accent-hover: #98d4a0;
+    --accent-soft: #212e1d;
+    --accent-soft-line: #37472f;
+
+    --gold: #dcae5f;
+    --gold-soft: #372a13;
+
+    --rarity-commune-bg: #262b21;
+    --rarity-commune-fg: #b7bdac;
+    --rarity-peu-bg: #1c3123;
+    --rarity-peu-fg: #7fce8f;
+    --rarity-rare-bg: #1b2c38;
+    --rarity-rare-fg: #7fb8dd;
+    --rarity-except-bg: #362a14;
+    --rarity-except-fg: #e0b566;
+
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 1px rgba(0, 0, 0, 0.2);
+    --shadow-card-hover: 0 10px 24px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
 body {
   margin: 0;
-  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--text);
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
 }

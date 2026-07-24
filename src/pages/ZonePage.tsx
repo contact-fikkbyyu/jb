@@ -5,7 +5,7 @@ import { PlantCard } from "../components/PlantCard";
 import { Breadcrumbs } from "../components/Breadcrumbs";
 import { SearchBar } from "../components/SearchBar";
 import { FilterBar, type SeenFilter } from "../components/FilterBar";
-import { ZONE_TYPE_ICON } from "../data/rarity";
+import { ZONE_TYPE_ICON, ZONE_TYPE_GRADIENT } from "../data/rarity";
 import type { Rarity } from "../types";
 import { useCollection } from "../context/CollectionContext";
 
@@ -61,11 +61,15 @@ export function ZonePage() {
       />
 
       <div className="flex flex-col gap-2">
-        <h1 className="flex items-center gap-2 font-serif text-3xl font-semibold text-stone-800">
-          <span>{ZONE_TYPE_ICON[zone.type]}</span>
+        <h1 className="flex items-center gap-3 font-display text-3xl font-semibold tracking-tight text-[var(--ink)]">
+          <span
+            className={`flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br text-xl ${ZONE_TYPE_GRADIENT[zone.type]}`}
+          >
+            {ZONE_TYPE_ICON[zone.type]}
+          </span>
           {zone.name}
         </h1>
-        <p className="text-stone-600">{zone.description}</p>
+        <p className="max-w-lg text-[var(--text)]">{zone.description}</p>
       </div>
 
       <div className="flex flex-col gap-3">
@@ -83,11 +87,13 @@ export function ZonePage() {
       </div>
 
       {filteredPlants.length === 0 ? (
-        <p className="text-stone-500">Aucune plante ne correspond aux filtres.</p>
+        <p className="text-[var(--text-muted)]">
+          Aucune plante ne correspond aux filtres.
+        </p>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {filteredPlants.map((plant) => (
-            <PlantCard key={plant.id} plant={plant} />
+            <PlantCard key={plant.id} plant={plant} zoneType={zone.type} />
           ))}
         </div>
       )}
