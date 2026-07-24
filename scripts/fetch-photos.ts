@@ -6,9 +6,13 @@
  * Requires internet access (this repo's dev sandbox has none, which is
  * why this is a script the user runs, not something done automatically).
  *
- * For each plant, searches Wikipedia (French, then English) for the best
- * matching article rather than assuming an exact title — hand-guessed
- * titles miss too often. The first search hit with a lead photo wins.
+ * For each plant: try the REST summary directly on a couple of likely
+ * titles (cheap, 1 request each), then fall back to Wikipedia's search
+ * API (French, then English) to find the best matching article. All
+ * requests go through a small rate limiter that also backs off and
+ * retries on HTTP 429, since Wikimedia throttles bursty anonymous
+ * clients — that throttling was silently masquerading as "no photo
+ * found" in an earlier version of this script.
  *
  * Resumable: already-downloaded photos are skipped on re-run unless
  * --force is passed. Progress is written to the manifest after every
@@ -40,56 +44,95 @@ const MANIFEST_PATH = path.resolve(__dirname, "../src/data/photoManifest.json");
 const USER_AGENT =
   "HerbierApp/1.0 (contact@mozaic-pro.com) personal botanical-garden reference app";
 const FORCE = process.argv.includes("--force");
+const VERBOSE = process.argv.includes("--verbose");
 const LANGS = ["fr", "en"] as const;
+const MIN_REQUEST_GAP_MS = 250;
+
+// --- A small global rate limiter shared by every request this script makes ---
+
+let lastRequestAt = 0;
+let rateLimitHits = 0;
+
+async function politeFetch(url: string, retriesLeft = 2): Promise<Response> {
+  const wait = lastRequestAt + MIN_REQUEST_GAP_MS - Date.now();
+  if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+  lastRequestAt = Date.now();
+
+  const res = await fetch(url, {
+    headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
+  });
+
+  if (res.status === 429 && retriesLeft > 0) {
+    rateLimitHits++;
+    const retryAfter = Number(res.headers.get("retry-after")) || 3;
+    if (VERBOSE) console.log(`   ⏳ 429, pause ${retryAfter}s...`);
+    await new Promise((r) => setTimeout(r, retryAfter * 1000));
+    return politeFetch(url, retriesLeft - 1);
+  }
+  return res;
+}
+
+// --- Wikipedia lookups ---
 
 interface WikiSummary {
   thumbnail?: { source: string; width: number; height: number };
   type?: string;
 }
 
+async function fetchSummary(lang: string, title: string): Promise<WikiSummary | null> {
+  const url = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(
+    title.replace(/ /g, "_"),
+  )}`;
+  const res = await politeFetch(url);
+  if (!res.ok) {
+    if (VERBOSE) console.log(`   summary(${lang}, ${title}) -> HTTP ${res.status}`);
+    return null;
+  }
+  const json = (await res.json()) as WikiSummary;
+  if (json.type === "disambiguation") return null;
+  return json;
+}
+
 async function searchTitle(lang: string, query: string): Promise<string | null> {
   const url =
     `https://${lang}.wikipedia.org/w/api.php?action=query&list=search&format=json` +
     `&srlimit=1&srsearch=${encodeURIComponent(query)}`;
-  const res = await fetch(url, {
-    headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
-  });
-  if (!res.ok) return null;
+  const res = await politeFetch(url);
+  if (!res.ok) {
+    if (VERBOSE) console.log(`   search(${lang}, ${query}) -> HTTP ${res.status}`);
+    return null;
+  }
   const json = (await res.json()) as {
     query?: { search?: { title: string }[] };
   };
   return json.query?.search?.[0]?.title ?? null;
 }
 
-async function fetchSummary(lang: string, title: string): Promise<WikiSummary | null> {
-  const url = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(
-    title.replace(/ /g, "_"),
-  )}`;
-  const res = await fetch(url, {
-    headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
-  });
-  if (!res.ok) return null;
-  const json = (await res.json()) as WikiSummary;
-  if (json.type === "disambiguation") return null;
-  return json;
+interface Found {
+  summary: WikiSummary;
+  lang: string;
+  title: string;
 }
 
-/** Tries each candidate query on each language wiki, returns the first hit with a photo. */
-async function findPhoto(
-  queries: string[],
-): Promise<{ summary: WikiSummary; lang: string; title: string } | null> {
+/**
+ * Cheapest path first: try each candidate title directly (1 request).
+ * Only if none of those work do we spend a search request per language.
+ */
+async function findPhoto(queries: string[]): Promise<Found | null> {
   for (const lang of LANGS) {
     for (const query of queries) {
-      try {
-        const title = await searchTitle(lang, query);
-        if (!title) continue;
-        const summary = await fetchSummary(lang, title);
-        if (summary?.thumbnail) return { summary, lang, title };
-      } catch {
-        // try the next candidate
-      }
+      const summary = await fetchSummary(lang, query);
+      if (summary?.thumbnail) return { summary, lang, title: query };
     }
   }
+
+  for (const lang of LANGS) {
+    const title = await searchTitle(lang, queries[0]);
+    if (!title) continue;
+    const summary = await fetchSummary(lang, title);
+    if (summary?.thumbnail) return { summary, lang, title };
+  }
+
   return null;
 }
 
@@ -98,6 +141,9 @@ function upsizeThumbnail(sourceUrl: string, width = 640): string {
 }
 
 async function downloadImage(url: string, destPath: string): Promise<void> {
+  const wait = lastRequestAt + MIN_REQUEST_GAP_MS - Date.now();
+  if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+  lastRequestAt = Date.now();
   const res = await fetch(url, { headers: { "User-Agent": USER_AGENT } });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const buffer = Buffer.from(await res.arrayBuffer());
@@ -144,16 +190,24 @@ async function main() {
       continue;
     }
 
-    const queries = [plant.latinName, plant.wikipediaTitle, plant.name].filter(
-      (t): t is string => Boolean(t),
-    );
+    const queries = [
+      ...new Set(
+        [plant.latinName, plant.wikipediaTitle, plant.name].filter(
+          (t): t is string => Boolean(t),
+        ),
+      ),
+    ];
 
-    const found = await findPhoto(queries);
+    let found: Found | null = null;
+    try {
+      found = await findPhoto(queries);
+    } catch (err) {
+      if (VERBOSE) console.log(`   erreur réseau: ${(err as Error).message}`);
+    }
 
     if (!found) {
       console.log(`${progress} ✗ ${plant.name} — pas de photo trouvée`);
       failed.push(plant.name);
-      await new Promise((resolve) => setTimeout(resolve, 150));
       continue;
     }
 
@@ -170,15 +224,17 @@ async function main() {
       console.log(`${progress} ✗ ${plant.name} — ${(err as Error).message}`);
       failed.push(plant.name);
     }
-
-    // Be polite to Wikimedia's servers.
-    await new Promise((resolve) => setTimeout(resolve, 150));
   }
 
   console.log("\n--- Résumé ---");
   console.log(`Réussies : ${succeeded.length}`);
   console.log(`Déjà présentes (ignorées) : ${skipped.length}`);
   console.log(`Échecs : ${failed.length}`);
+  if (rateLimitHits > 0) {
+    console.log(
+      `⚠️  ${rateLimitHits} pause(s) pour cause de limitation de débit (HTTP 429) — si beaucoup d'échecs, relancez le script plus tard, il reprendra où il s'est arrêté.`,
+    );
+  }
   if (failed.length) {
     console.log("Plantes sans photo :", failed.join(", "));
   }
