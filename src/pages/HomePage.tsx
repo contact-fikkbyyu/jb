@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { plants } from "../data/plants";
+import { findLocation } from "../data/locations";
 import { PlantCard } from "../components/PlantCard";
 import { SearchBar } from "../components/SearchBar";
 import { CategoryFilter } from "../components/CategoryFilter";
@@ -17,6 +19,16 @@ export function HomePage() {
   const [seenFilter, setSeenFilter] = useState<SeenFilter>("toutes");
   const { isSeen } = useCollection();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const locationId = searchParams.get("lieu");
+  const location = locationId ? findLocation(locationId) : undefined;
+
+  function clearLocation() {
+    const next = new URLSearchParams(searchParams);
+    next.delete("lieu");
+    setSearchParams(next);
+  }
+
   const filteredPlants = useMemo(() => {
     const q = query.trim().toLowerCase();
     return plants.filter((plant) => {
@@ -28,14 +40,22 @@ export function HomePage() {
         activeCategories.size === 0 || activeCategories.has(plant.category);
       const matchesRarity =
         activeRarities.size === 0 || activeRarities.has(plant.rarity);
+      const matchesLocation =
+        !location || plant.locationIds.includes(location.id);
       const seen = isSeen(plant.id);
       const matchesSeen =
         seenFilter === "toutes" ||
         (seenFilter === "vues" && seen) ||
         (seenFilter === "non-vues" && !seen);
-      return matchesQuery && matchesCategory && matchesRarity && matchesSeen;
+      return (
+        matchesQuery &&
+        matchesCategory &&
+        matchesRarity &&
+        matchesLocation &&
+        matchesSeen
+      );
     });
-  }, [query, activeCategories, activeRarities, seenFilter, isSeen]);
+  }, [query, activeCategories, activeRarities, seenFilter, isSeen, location]);
 
   const { visibleItems, sentinelRef, hasMore } = useInfiniteReveal(
     filteredPlants,
@@ -86,6 +106,21 @@ export function HomePage() {
           onSeenFilterChange={setSeenFilter}
         />
       </div>
+
+      {location && (
+        <div className="flex items-center gap-2 rounded-full bg-[var(--gold-soft)] px-4 py-2 text-sm text-[var(--ink)]">
+          <span>
+            📍 Plantes observables à <strong>{location.name}</strong> ({location.city})
+          </span>
+          <button
+            onClick={clearLocation}
+            className="ml-auto text-[var(--text-muted)] hover:text-[var(--ink)]"
+            title="Retirer ce filtre"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       <p className="text-sm font-medium uppercase tracking-wide text-[var(--text-muted)]">
         {filteredPlants.length} plante{filteredPlants.length !== 1 ? "s" : ""}

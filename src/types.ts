@@ -25,4 +25,6 @@ export interface Plant {
   emoji: string;
   /** Article title on fr.wikipedia.org, when known */
   wikipediaTitle?: string;
+  /** Ids of real French gardens/parks where this plant can typically be observed */
+  locationIds: string[];
 }

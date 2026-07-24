@@ -1,6 +1,7 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import { findPlant, wikipediaUrl } from "../data/plants";
 import { CATEGORY_LABEL } from "../data/categories";
+import { locations } from "../data/locations";
 import { RarityBadge } from "../components/RarityBadge";
 import { SeenBadge } from "../components/SeenBadge";
 import { PlantIllustration } from "../components/PlantIllustration";
@@ -13,6 +14,9 @@ export function PlantPage() {
 
   if (!plant) return <Navigate to="/" replace />;
   const seen = isSeen(plant.id);
+  const plantLocations = locations.filter((loc) =>
+    plant.locationIds.includes(loc.id),
+  );
 
   return (
     <div className="flex flex-col gap-6">
@@ -74,6 +78,25 @@ export function PlantPage() {
             Voir sur Wikipédia ↗
           </a>
         </div>
+
+        {plantLocations.length > 0 && (
+          <div>
+            <h2 className="mb-2 text-sm font-medium uppercase tracking-wide text-[var(--text-muted)]">
+              📍 Où l'observer en France
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {plantLocations.map((loc) => (
+                <Link
+                  key={loc.id}
+                  to={`/carte?lieu=${loc.id}`}
+                  className="rounded-full border border-[var(--line)] px-3 py-1.5 text-sm text-[var(--text)] transition hover:border-[var(--line-strong)] hover:text-[var(--ink)]"
+                >
+                  {loc.name} · {loc.city}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
