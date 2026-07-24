@@ -13,13 +13,26 @@
 import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { plants } from "../src/data/plants";
 
-const PHOTOS_DIR = path.resolve(import.meta.dirname, "../public/photos");
-const MANIFEST_PATH = path.resolve(
-  import.meta.dirname,
-  "../src/data/photoManifest.json",
-);
+// Works on any Node version with ESM support (import.meta.dirname needs
+// Node 20.11+, which not every environment — e.g. default Codespaces — has).
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const [major] = process.versions.node.split(".").map(Number);
+if (major < 18 || typeof fetch === "undefined") {
+  console.error(
+    `\n❌ Ce script a besoin de Node.js 18 ou plus récent (fetch natif). Version détectée : ${process.versions.node}.\n` +
+      `   Dans ce terminal, essayez :\n` +
+      `     nvm install 20 && nvm use 20\n` +
+      `   puis relancez : npm run fetch:photos\n`,
+  );
+  process.exit(1);
+}
+
+const PHOTOS_DIR = path.resolve(__dirname, "../public/photos");
+const MANIFEST_PATH = path.resolve(__dirname, "../src/data/photoManifest.json");
 const USER_AGENT =
   "HerbierApp/1.0 (contact@mozaic-pro.com) personal botanical-garden reference app";
 const FORCE = process.argv.includes("--force");
@@ -83,7 +96,7 @@ async function main() {
     const progress = `[${i + 1}/${plants.length}]`;
 
     if (!FORCE && manifest[plant.id] && existsSync(
-      path.resolve(import.meta.dirname, "..", "public", manifest[plant.id].replace(/^\//, "")),
+      path.resolve(__dirname, "..", "public", manifest[plant.id].replace(/^\//, "")),
     )) {
       skipped.push(plant.id);
       continue;
