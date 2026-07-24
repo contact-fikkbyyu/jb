@@ -44,7 +44,7 @@ export function PlantPage() {
         <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-5">
             <div className="flex flex-col items-center gap-1">
-              <PlantVisual plant={plant} size="lg" />
+              <PlantVisual plant={plant} size="lg" zoomable />
               {manifest[plant.id] && (
                 <span className="text-[10px] text-[var(--text-muted)]">
                   Photo : Wikipédia
