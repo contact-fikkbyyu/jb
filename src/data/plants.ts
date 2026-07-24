@@ -1524,6 +1524,246 @@ export const plants: Plant[] = [
     funFact:
       "Créée en 1958, c'est l'une des variétés de rosiers les plus cultivées au monde : elle reste, encore aujourd'hui, un incontournable des roseraies.",
   },
+
+  // --- Cactées (suite 3) ---
+  {
+    id: "cactus-noel",
+    name: "Cactus de Noël",
+    latinName: "Schlumbergera sp.",
+    category: "cactus",
+    locationIds: ["eze-exotique", "rayol"],
+    emoji: "🎄",
+    rarity: "commune",
+    wikipediaTitle: "Schlumbergera",
+    funFact:
+      "Contrairement à la majorité des cactus qui fleurissent en été, celui-ci s'épanouit traditionnellement en hiver, autour de Noël dans l'hémisphère nord, d'où son nom.",
+  },
+
+  // --- Succulentes (suite 3) ---
+  {
+    id: "sempervivum",
+    name: "Joubarbe",
+    latinName: "Sempervivum tectorum",
+    category: "succulente",
+    locationIds: ["eze-exotique", "lautaret"],
+    emoji: "🪴",
+    rarity: "commune",
+    wikipediaTitle: "Sempervivum tectorum",
+    funFact:
+      "Autrefois plantée sur les toits de chaume, on la croyait capable de protéger les maisons de la foudre et du feu, d'où son surnom d'« herbe de tonnerre ».",
+  },
+  {
+    id: "pilea-peperomioides",
+    name: "Plante à Monnaie Chinoise",
+    latinName: "Pilea peperomioides",
+    category: "succulente",
+    locationIds: ["paris-jdp", "lyon-tdo"],
+    emoji: "🪙",
+    rarity: "commune",
+    wikipediaTitle: "Pilea peperomioides",
+    funFact:
+      "Devenue une star des réseaux sociaux dans les années 2010, la quasi-totalité des pieds cultivés dans le monde descendent de boutures d'un unique plant ramené de Chine en Norvège en 1946.",
+  },
+
+  // --- Palmiers (suite 3) ---
+  {
+    id: "kentia",
+    name: "Palmier Kentia",
+    latinName: "Howea forsteriana",
+    category: "palmier",
+    locationIds: ["paris-jdp", "lyon-tdo"],
+    emoji: "🌴",
+    rarity: "commune",
+    wikipediaTitle: "Howea forsteriana",
+    funFact:
+      "L'une des plantes d'intérieur les plus tolérantes à la faible luminosité, elle a fait fureur dans les salons victoriens dès la fin du XIXe siècle et reste un classique des grands halls d'hôtel.",
+  },
+  {
+    id: "areca",
+    name: "Palmier Areca",
+    latinName: "Dypsis lutescens",
+    category: "palmier",
+    locationIds: ["lyon-tdo", "paris-jdp"],
+    emoji: "🌴",
+    rarity: "commune",
+    wikipediaTitle: "Dypsis lutescens",
+    funFact:
+      "Une étude de la NASA sur la qualité de l'air intérieur l'a classé parmi les plantes les plus efficaces pour humidifier naturellement l'atmosphère d'une pièce.",
+  },
+
+  // --- Méditerranéenne (suite 3) ---
+  {
+    id: "laurier-sauce",
+    name: "Laurier Sauce",
+    latinName: "Laurus nobilis",
+    category: "mediterraneenne",
+    locationIds: ["montpellier-jdp", "menton-madone"],
+    emoji: "🍃",
+    rarity: "commune",
+    wikipediaTitle: "Laurus nobilis",
+    funFact:
+      "Ses feuilles tressées en couronnes récompensaient les vainqueurs des Jeux Olympiques antiques et les plus grands poètes, ce qui a donné naissance au mot « lauréat ».",
+  },
+  {
+    id: "buis",
+    name: "Buis",
+    latinName: "Buxus sempervirens",
+    category: "mediterraneenne",
+    locationIds: ["montpellier-jdp", "rayol"],
+    emoji: "🌳",
+    rarity: "commune",
+    wikipediaTitle: "Buis commun",
+    funFact:
+      "Son bois compte parmi les plus denses et les plus durs d'Europe, si dense qu'il coule dans l'eau. Il a longtemps servi à graver les caractères d'imprimerie et les instruments de précision.",
+  },
+
+  // --- Tropicale & exotique (suite 3) ---
+  {
+    id: "ficus-lyrata",
+    name: "Figuier Lyre",
+    latinName: "Ficus lyrata",
+    category: "tropicale",
+    locationIds: ["lyon-tdo", "paris-jdp"],
+    emoji: "🎻",
+    rarity: "commune",
+    wikipediaTitle: "Ficus lyrata",
+    funFact:
+      "Grâce à ses immenses feuilles en forme de violon, il est devenu l'une des plantes d'intérieur les plus photographiées sur les réseaux sociaux dans les années 2010.",
+  },
+  {
+    id: "dracaena",
+    name: "Dragonnier",
+    latinName: "Dracaena draco",
+    category: "tropicale",
+    locationIds: ["rayol", "eze-exotique"],
+    emoji: "🐉",
+    rarity: "commune",
+    wikipediaTitle: "Dracaena draco",
+    funFact:
+      "Certaines espèces du genre produisent une résine rouge sombre surnommée « sang de dragon », utilisée depuis l'Antiquité comme teinture et vernis.",
+  },
+  {
+    id: "lierre-commun",
+    name: "Lierre Commun",
+    latinName: "Hedera helix",
+    category: "tropicale",
+    locationIds: ["paris-jdp", "lyon-tdo"],
+    emoji: "🌿",
+    rarity: "commune",
+    wikipediaTitle: "Lierre grimpant",
+    funFact:
+      "Sa forme juvénile grimpante ne fleurit jamais. Ce n'est qu'après avoir atteint suffisamment de lumière en hauteur qu'il se métamorphose en une forme arbustive adulte, seule capable de produire fleurs et baies.",
+  },
+
+  // --- Japonaise (suite 3) ---
+  {
+    id: "pivoine-arbustive",
+    name: "Pivoine Arbustive",
+    latinName: "Paeonia suffruticosa",
+    category: "japonaise",
+    locationIds: ["maulevrier-oriental", "vincennes-floral"],
+    emoji: "🌸",
+    rarity: "commune",
+    wikipediaTitle: "Paeonia suffruticosa",
+    funFact:
+      "Surnommée « reine des fleurs » en Chine comme au Japon, un même pied peut vivre et fleurir chaque printemps pendant plus de 100 ans.",
+  },
+
+  // --- Alpine (suite 3) ---
+  {
+    id: "myosotis-alpestre",
+    name: "Myosotis des Alpes",
+    latinName: "Myosotis alpestris",
+    category: "alpine",
+    locationIds: ["lautaret", "paris-jdp"],
+    emoji: "💙",
+    rarity: "commune",
+    wikipediaTitle: "Myosotis alpestris",
+    funFact:
+      "Son nom signifie « oreille de souris » en grec, en référence à la forme douce et duveteuse de ses petites feuilles.",
+  },
+
+  // --- Aromatique & médicinale (suite 3) ---
+  {
+    id: "persil",
+    name: "Persil",
+    latinName: "Petroselinum crispum",
+    category: "aromatique",
+    locationIds: ["montpellier-jdp", "paris-jdp"],
+    emoji: "🌿",
+    rarity: "commune",
+    wikipediaTitle: "Persil",
+    funFact:
+      "Dans la Grèce antique, il était associé à la mort et tressé en couronnes funéraires : on ne l'utilisait jamais pour honorer les vivants.",
+  },
+  {
+    id: "ciboulette",
+    name: "Ciboulette",
+    latinName: "Allium schoenoprasum",
+    category: "aromatique",
+    locationIds: ["montpellier-jdp", "paris-jdp"],
+    emoji: "🌿",
+    rarity: "commune",
+    wikipediaTitle: "Ciboulette",
+    funFact:
+      "C'est la plus petite espèce comestible de tout le genre Allium, qui regroupe aussi l'oignon, l'ail et le poireau.",
+  },
+
+  // --- Orchidées (suite 3) ---
+  {
+    id: "dendrobium-nobile",
+    name: "Dendrobium Nobile",
+    latinName: "Dendrobium nobile",
+    category: "orchidee",
+    locationIds: ["lyon-tdo", "paris-jdp"],
+    emoji: "🦋",
+    rarity: "commune",
+    wikipediaTitle: "Dendrobium nobile",
+    funFact:
+      "Dans la médecine traditionnelle chinoise, sa tige séchée est utilisée depuis plus de 2000 ans sous le nom de « shi hu », l'une des plantes les plus prisées de cette pharmacopée.",
+  },
+
+  // --- Carnivores (suite 3) ---
+  {
+    id: "drosophyllum",
+    name: "Attrape-mouches du Portugal",
+    latinName: "Drosophyllum lusitanicum",
+    category: "carnivore",
+    locationIds: ["brest-cbn"],
+    emoji: "🪰",
+    rarity: "peu-commune",
+    wikipediaTitle: "Drosophyllum lusitanicum",
+    funFact:
+      "Contrairement à la plupart des plantes carnivores qui affectionnent les zones humides, celle-ci pousse dans des sols secs et rocailleux, un cas unique dans son groupe.",
+  },
+
+  // --- Aquatique (suite 3) ---
+  {
+    id: "salvinia",
+    name: "Salvinia",
+    latinName: "Salvinia natans",
+    category: "aquatique",
+    locationIds: ["giverny", "vincennes-floral"],
+    emoji: "💧",
+    rarity: "commune",
+    wikipediaTitle: "Salvinia natans",
+    funFact:
+      "Ses feuilles sont recouvertes de poils microscopiques en forme de fouet qui emprisonnent une fine couche d'air, la rendant quasiment impossible à mouiller.",
+  },
+
+  // --- Roseraie (suite 3) ---
+  {
+    id: "pierre-de-ronsard",
+    name: "Rosier 'Pierre de Ronsard'",
+    latinName: "Rosa 'Pierre de Ronsard'",
+    category: "rosier",
+    locationIds: ["lyon-tdo", "paris-jdp"],
+    emoji: "🌹",
+    rarity: "commune",
+    wikipediaTitle: "Pierre de Ronsard (rose)",
+    funFact:
+      "Élue « rose préférée du monde » lors d'un concours international en 2006, cette variété grimpante porte le nom du célèbre poète français de la Renaissance.",
+  },
 ];
 
 export function findPlant(plantId: string): Plant | undefined {
