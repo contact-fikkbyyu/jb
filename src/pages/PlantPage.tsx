@@ -4,8 +4,11 @@ import { CATEGORY_LABEL } from "../data/categories";
 import { locations } from "../data/locations";
 import { RarityBadge } from "../components/RarityBadge";
 import { SeenBadge } from "../components/SeenBadge";
-import { PlantIllustration } from "../components/PlantIllustration";
+import { PlantVisual } from "../components/PlantVisual";
 import { useCollection } from "../context/CollectionContext";
+import photoManifest from "../data/photoManifest.json";
+
+const manifest: Record<string, string> = photoManifest;
 
 export function PlantPage() {
   const { plantId } = useParams<{ plantId: string }>();
@@ -40,7 +43,14 @@ export function PlantPage() {
       <div className="flex flex-col gap-6 rounded-2xl border border-[var(--line)] bg-[var(--paper-raised)] p-6 shadow-[var(--shadow-card)] sm:p-8">
         <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-5">
-            <PlantIllustration plant={plant} size="lg" />
+            <div className="flex flex-col items-center gap-1">
+              <PlantVisual plant={plant} size="lg" />
+              {manifest[plant.id] && (
+                <span className="text-[10px] text-[var(--text-muted)]">
+                  Photo : Wikipédia
+                </span>
+              )}
+            </div>
             <div>
               <h1 className="font-display text-3xl font-semibold tracking-tight text-[var(--ink)]">
                 {plant.name}

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import type { Plant } from "../types";
 import { RarityBadge } from "./RarityBadge";
-import { PlantIllustration } from "./PlantIllustration";
+import { PlantVisual } from "./PlantVisual";
 import { CATEGORY_LABEL } from "../data/categories";
 import { useCollection } from "../context/CollectionContext";
 
@@ -30,7 +30,7 @@ export function PlantCard({ plant }: { plant: Plant }) {
       </button>
 
       <Link to={`/plante/${plant.id}`} className="flex flex-col gap-3 pr-8">
-        <PlantIllustration plant={plant} />
+        <PlantVisual plant={plant} />
         <div>
           <h3 className="font-display text-lg font-semibold leading-snug text-[var(--ink)]">
             {plant.name}

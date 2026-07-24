@@ -1,7 +1,7 @@
 import type { Plant } from "../types";
 import { CATEGORY_GRADIENT } from "../data/categories";
 
-const SIZES = {
+export const ILLUSTRATION_SIZES = {
   sm: { wrap: "h-16 w-16", emoji: "text-2xl", ring: "ring-2" },
   md: { wrap: "h-20 w-20", emoji: "text-3xl", ring: "ring-2" },
   lg: { wrap: "h-28 w-28", emoji: "text-5xl", ring: "ring-[3px]" },
@@ -12,9 +12,9 @@ export function PlantIllustration({
   size = "md",
 }: {
   plant: Plant;
-  size?: keyof typeof SIZES;
+  size?: keyof typeof ILLUSTRATION_SIZES;
 }) {
-  const s = SIZES[size];
+  const s = ILLUSTRATION_SIZES[size];
   return (
     <div
       className={`relative shrink-0 ${s.wrap} rounded-full bg-gradient-to-br ${CATEGORY_GRADIENT[plant.category]} ${s.ring} ring-[var(--paper-raised)] shadow-[var(--shadow-card)]`}
