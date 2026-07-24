@@ -1,5 +1,9 @@
 import type { PlantCategory } from "../types";
-import { CATEGORY_ICON, CATEGORY_LABEL, CATEGORY_ORDER } from "../data/categories";
+import {
+  CATEGORY_ICON,
+  CATEGORY_ORDER,
+  CATEGORY_SHORT_LABEL,
+} from "../data/categories";
 
 export function CategoryFilter({
   active,
@@ -9,22 +13,28 @@ export function CategoryFilter({
   onToggle: (category: PlantCategory) => void;
 }) {
   return (
-    <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
-      <div className="flex w-max gap-2 sm:w-full sm:flex-wrap">
+    <div className="-mx-4 overflow-x-auto px-4 pb-1 sm:-mx-0 sm:px-0">
+      <div className="flex w-max gap-3">
         {CATEGORY_ORDER.map((category) => {
           const isActive = active.has(category);
           return (
             <button
               key={category}
               onClick={() => onToggle(category)}
-              className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 ring-inset transition ${
+              className={`flex h-24 w-24 shrink-0 flex-col items-center justify-center gap-1.5 rounded-2xl border transition ${
                 isActive
-                  ? "bg-[var(--ink)] text-[var(--paper)] ring-[var(--ink)]"
-                  : "bg-[var(--paper-raised)] text-[var(--text)] ring-[var(--line)] hover:ring-[var(--line-strong)]"
+                  ? "border-[var(--accent)] bg-[var(--accent-soft)] shadow-[var(--shadow-card)]"
+                  : "border-[var(--line)] bg-[var(--paper-raised)] hover:border-[var(--line-strong)]"
               }`}
             >
-              <span>{CATEGORY_ICON[category]}</span>
-              {CATEGORY_LABEL[category]}
+              <span className="text-3xl">{CATEGORY_ICON[category]}</span>
+              <span
+                className={`text-center text-xs font-medium leading-tight ${
+                  isActive ? "text-[var(--ink)]" : "text-[var(--text)]"
+                }`}
+              >
+                {CATEGORY_SHORT_LABEL[category]}
+              </span>
             </button>
           );
         })}

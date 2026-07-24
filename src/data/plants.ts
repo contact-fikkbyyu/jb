@@ -1212,6 +1212,318 @@ export const plants: Plant[] = [
     funFact:
       "En 1997, il est devenu la toute première plante à avoir jamais reçu un brevet aux États-Unis, ouvrant la voie au brevetage végétal moderne dans le monde entier.",
   },
+
+  // --- Cactées (suite 2) ---
+  {
+    id: "aporocactus",
+    name: "Cactus Queue de Rat",
+    latinName: "Disocactus flagelliformis",
+    category: "cactus",
+    locationIds: ["eze-exotique", "rayol"],
+    emoji: "🌵",
+    rarity: "commune",
+    wikipediaTitle: "Disocactus flagelliformis",
+    funFact:
+      "Ses tiges retombantes, fines comme des cordes, peuvent dépasser un mètre de long en suspension. Dans son Mexique natal, ses fleurs roses vif sont pollinisées par les colibris.",
+  },
+  {
+    id: "copiapoa",
+    name: "Copiapoa",
+    latinName: "Copiapoa sp.",
+    category: "cactus",
+    locationIds: ["eze-exotique", "rayol"],
+    emoji: "🌵",
+    rarity: "rare",
+    wikipediaTitle: "Copiapoa",
+    funFact:
+      "Ce genre de cactus chilien survit presque uniquement grâce au brouillard côtier qu'il capte, dans certaines zones du désert d'Atacama où il ne pleut parfois pas pendant des années entières.",
+  },
+
+  // --- Succulentes (suite 2) ---
+  {
+    id: "haworthia",
+    name: "Haworthia",
+    latinName: "Haworthia sp.",
+    category: "succulente",
+    locationIds: ["eze-exotique", "rayol"],
+    emoji: "🪴",
+    rarity: "commune",
+    wikipediaTitle: "Haworthia",
+    funFact:
+      "Le sommet translucide de ses feuilles agit comme une minuscule fenêtre : en milieu naturel, la plante reste presque entièrement enterrée et laisse simplement filtrer la lumière vers ses tissus photosynthétiques cachés sous le sable.",
+  },
+  {
+    id: "sedum",
+    name: "Orpin",
+    latinName: "Sedum sp.",
+    category: "succulente",
+    locationIds: ["eze-exotique", "rayol"],
+    emoji: "🪴",
+    rarity: "commune",
+    wikipediaTitle: "Sedum",
+    funFact:
+      "De nombreuses espèces peuvent régénérer une plante entière à partir d'une seule feuille tombée au sol, une capacité de bouturage naturel spectaculaire.",
+  },
+
+  // --- Palmiers (suite 2) ---
+  {
+    id: "palmier-royal-cuba",
+    name: "Palmier Royal de Cuba",
+    latinName: "Roystonea regia",
+    category: "palmier",
+    locationIds: ["rothschild-ephrussi", "rayol"],
+    emoji: "🌴",
+    rarity: "peu-commune",
+    wikipediaTitle: "Roystonea regia",
+    funFact:
+      "Son tronc peut se renfler en son milieu comme une bouteille. Cette réserve d'eau et de souplesse l'aide à résister aux vents violents des ouragans caribéens.",
+  },
+  {
+    id: "chamaerops-humilis",
+    name: "Palmier Nain",
+    latinName: "Chamaerops humilis",
+    category: "palmier",
+    locationIds: ["eze-exotique", "montpellier-jdp"],
+    emoji: "🌴",
+    rarity: "commune",
+    wikipediaTitle: "Chamaerops humilis",
+    funFact:
+      "C'est le seul palmier réellement indigène du continent européen : il pousse à l'état sauvage sur le pourtour méditerranéen depuis la dernière ère glaciaire.",
+  },
+
+  // --- Méditerranéenne (suite 2) ---
+  {
+    id: "arbousier",
+    name: "Arbousier",
+    latinName: "Arbutus unedo",
+    category: "mediterraneenne",
+    locationIds: ["montpellier-jdp", "rayol"],
+    emoji: "🍓",
+    rarity: "peu-commune",
+    wikipediaTitle: "Arbousier",
+    funFact:
+      "Ses fruits rouges grenus, comestibles mais peu appétissants crus, ont donné son emblème à la ville de Madrid, dont le symbole représente un ours mangeant un arbousier.",
+  },
+  {
+    id: "lentisque",
+    name: "Lentisque Pistachier",
+    latinName: "Pistacia lentiscus",
+    category: "mediterraneenne",
+    locationIds: ["montpellier-jdp", "menton-madone"],
+    emoji: "🌿",
+    rarity: "commune",
+    wikipediaTitle: "Lentisque",
+    funFact:
+      "Sa résine, le mastic, est récoltée depuis l'Antiquité sur l'île grecque de Chios et reste aujourd'hui la seule résine végétale au monde protégée par une appellation d'origine.",
+  },
+
+  // --- Tropicale & exotique (suite 2) ---
+  {
+    id: "heliconia",
+    name: "Héliconia",
+    latinName: "Heliconia sp.",
+    category: "tropicale",
+    locationIds: ["lyon-tdo", "rayol"],
+    emoji: "🦞",
+    rarity: "peu-commune",
+    wikipediaTitle: "Heliconia",
+    funFact:
+      "Ses bractées en forme de pince de homard forment de véritables petites piscines suspendues, qui abritent parfois des larves de grenouilles ou d'insectes tropicaux.",
+  },
+  {
+    id: "passiflore",
+    name: "Fleur de la Passion",
+    latinName: "Passiflora caerulea",
+    category: "tropicale",
+    locationIds: ["paris-jdp", "rayol"],
+    emoji: "💜",
+    rarity: "commune",
+    wikipediaTitle: "Passiflora caerulea",
+    funFact:
+      "Sa fleur, d'une structure si complexe, a été interprétée par les missionnaires espagnols du XVIe siècle comme un symbole représentant les instruments de la Passion du Christ, d'où son nom.",
+  },
+
+  // --- Japonaise (suite 2) ---
+  {
+    id: "hortensia",
+    name: "Hortensia",
+    latinName: "Hydrangea macrophylla",
+    category: "japonaise",
+    locationIds: ["maulevrier-oriental", "giverny"],
+    emoji: "💙",
+    rarity: "commune",
+    wikipediaTitle: "Hydrangea macrophylla",
+    funFact:
+      "La couleur de ses fleurs dépend directement de l'acidité du sol : bleu en sol acide, rose en sol basique, selon la disponibilité de l'aluminium que ses racines parviennent à absorber.",
+  },
+  {
+    id: "kaki",
+    name: "Plaqueminier du Japon",
+    latinName: "Diospyros kaki",
+    category: "japonaise",
+    locationIds: ["maulevrier-oriental", "vincennes-floral"],
+    emoji: "🟠",
+    rarity: "peu-commune",
+    wikipediaTitle: "Diospyros kaki",
+    funFact:
+      "À Hiroshima, un plaqueminier situé à environ 1 km de l'épicentre de l'explosion atomique de 1945 a survécu et continue de produire des fruits chaque année depuis.",
+  },
+
+  // --- Alpine (suite 2) ---
+  {
+    id: "linaigrette",
+    name: "Linaigrette",
+    latinName: "Eriophorum sp.",
+    category: "alpine",
+    locationIds: ["lautaret"],
+    emoji: "☁️",
+    rarity: "commune",
+    wikipediaTitle: "Eriophorum",
+    funFact:
+      "Ses aigrettes cotonneuses et blanches, qui recouvrent les tourbières alpines en été, étaient autrefois récoltées pour rembourrer coussins et pansements.",
+  },
+  {
+    id: "pensee-alpes",
+    name: "Pensée des Alpes",
+    latinName: "Viola calcarata",
+    category: "alpine",
+    locationIds: ["lautaret"],
+    emoji: "💜",
+    rarity: "peu-commune",
+    wikipediaTitle: "Viola calcarata",
+    funFact:
+      "Elle peut fleurir à peine les neiges fondues, parfois en perçant directement une fine couche de neige résiduelle encore présente au sol.",
+  },
+
+  // --- Aromatique & médicinale (suite 2) ---
+  {
+    id: "origan",
+    name: "Origan",
+    latinName: "Origanum vulgare",
+    category: "aromatique",
+    locationIds: ["montpellier-jdp", "paris-jdp"],
+    emoji: "🌿",
+    rarity: "commune",
+    wikipediaTitle: "Origan",
+    funFact:
+      "Son nom vient du grec « joie de la montagne ». Son huile essentielle compte parmi les plus riches en carvacrol, un puissant antimicrobien naturel.",
+  },
+  {
+    id: "camomille",
+    name: "Camomille",
+    latinName: "Matricaria chamomilla",
+    category: "aromatique",
+    locationIds: ["montpellier-jdp", "giverny"],
+    emoji: "🌼",
+    rarity: "commune",
+    wikipediaTitle: "Matricaire camomille",
+    funFact:
+      "Son nom latin « matricaria » vient de « matrix », l'utérus, en écho à des siècles d'usage traditionnel de cette plante en médecine populaire féminine.",
+  },
+
+  // --- Orchidées (suite 2) ---
+  {
+    id: "cymbidium",
+    name: "Cymbidium",
+    latinName: "Cymbidium sp.",
+    category: "orchidee",
+    locationIds: ["lyon-tdo", "paris-jdp"],
+    emoji: "🦋",
+    rarity: "commune",
+    wikipediaTitle: "Cymbidium",
+    funFact:
+      "Ses fleurs peuvent rester épanouies sur la plante pendant 8 à 10 semaines d'affilée, l'une des floraisons les plus durables de toutes les orchidées cultivées.",
+  },
+  {
+    id: "miltonia",
+    name: "Orchidée Pensée",
+    latinName: "Miltonia sp.",
+    category: "orchidee",
+    locationIds: ["lyon-tdo", "paris-jdp"],
+    emoji: "🦋",
+    rarity: "peu-commune",
+    wikipediaTitle: "Miltonia",
+    funFact:
+      "Ses fleurs plates et colorées évoquent des pensées de jardin, d'où son surnom, et libèrent souvent un parfum délicat proche de celui du muguet.",
+  },
+
+  // --- Carnivores (suite 2) ---
+  {
+    id: "cephalote",
+    name: "Céphalote",
+    latinName: "Cephalotus follicularis",
+    category: "carnivore",
+    locationIds: ["brest-cbn"],
+    emoji: "👞",
+    rarity: "exceptionnelle",
+    wikipediaTitle: "Cephalotus follicularis",
+    funFact:
+      "Originaire d'une toute petite région du sud-ouest de l'Australie, ses urnes miniatures ressemblent à s'y méprendre à de minuscules chaussures moulées.",
+  },
+  {
+    id: "byblis",
+    name: "Byblis",
+    latinName: "Byblis sp.",
+    category: "carnivore",
+    locationIds: ["brest-cbn"],
+    emoji: "🌈",
+    rarity: "rare",
+    wikipediaTitle: "Byblis (plante)",
+    funFact:
+      "Surnommée « plante arc-en-ciel », ses poils gluants réfractent la lumière du soleil en un halo scintillant, bien qu'elle ne soit pas du tout apparentée aux droséras qu'elle imite.",
+  },
+
+  // --- Aquatique (suite 2) ---
+  {
+    id: "trapa",
+    name: "Châtaigne d'Eau",
+    latinName: "Trapa natans",
+    category: "aquatique",
+    locationIds: ["giverny", "vincennes-floral"],
+    emoji: "🌰",
+    rarity: "peu-commune",
+    wikipediaTitle: "Trapa natans",
+    funFact:
+      "Ses fruits munis de cornes acérées ont inspiré la conception des chausse-trappes militaires antipersonnel, utilisées dès l'Antiquité pour blesser les pieds ennemis.",
+  },
+  {
+    id: "pistia",
+    name: "Laitue d'Eau",
+    latinName: "Pistia stratiotes",
+    category: "aquatique",
+    locationIds: ["giverny", "vincennes-floral"],
+    emoji: "🥬",
+    rarity: "commune",
+    wikipediaTitle: "Pistia stratiotes",
+    funFact:
+      "Elle flotte librement à la surface de l'eau sans jamais s'enraciner dans le fond : ses longues racines pendantes puisent directement les nutriments dissous.",
+  },
+
+  // --- Roseraie (suite 2) ---
+  {
+    id: "rosa-rugosa",
+    name: "Rosier Rugueux",
+    latinName: "Rosa rugosa",
+    category: "rosier",
+    locationIds: ["lyon-tdo", "paris-jdp"],
+    emoji: "🌹",
+    rarity: "commune",
+    wikipediaTitle: "Rosa rugosa",
+    funFact:
+      "Extrêmement résistant, il pousse spontanément sur les dunes de sable du littoral, tolérant les embruns salés et les vents violents mieux qu'aucun autre rosier.",
+  },
+  {
+    id: "rosier-iceberg",
+    name: "Rosier 'Iceberg'",
+    latinName: "Rosa 'Iceberg'",
+    category: "rosier",
+    locationIds: ["lyon-tdo", "paris-jdp"],
+    emoji: "🤍",
+    rarity: "peu-commune",
+    wikipediaTitle: "Iceberg (rose)",
+    funFact:
+      "Créée en 1958, c'est l'une des variétés de rosiers les plus cultivées au monde : elle reste, encore aujourd'hui, un incontournable des roseraies.",
+  },
 ];
 
 export function findPlant(plantId: string): Plant | undefined {

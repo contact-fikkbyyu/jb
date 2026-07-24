@@ -45,6 +45,22 @@ export const CATEGORY_LABEL: Record<PlantCategory, string> = {
   rosier: "Roseraie",
 };
 
+/** Compact label used on the square category tiles. */
+export const CATEGORY_SHORT_LABEL: Record<PlantCategory, string> = {
+  cactus: "Cactées",
+  succulente: "Succulentes",
+  palmier: "Palmiers",
+  mediterraneenne: "Méditerr.",
+  tropicale: "Tropicale",
+  japonaise: "Japonaise",
+  alpine: "Alpine",
+  aromatique: "Aromatique",
+  orchidee: "Orchidées",
+  carnivore: "Carnivore",
+  aquatique: "Aquatique",
+  rosier: "Roseraie",
+};
+
 /** Gradient used behind each plant's illustration, keyed by category. */
 export const CATEGORY_GRADIENT: Record<PlantCategory, string> = {
   cactus: "from-[#e3ecd2] to-[#c3d8a6] dark:from-[#2b3420] dark:to-[#1c2416]",

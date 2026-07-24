@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Plant } from "../types";
 import { RarityBadge } from "./RarityBadge";
-import { SeenBadge } from "./SeenBadge";
 import { PlantIllustration } from "./PlantIllustration";
 import { CATEGORY_LABEL } from "../data/categories";
 import { useCollection } from "../context/CollectionContext";
@@ -21,13 +20,13 @@ export function PlantCard({ plant }: { plant: Plant }) {
       <button
         onClick={() => toggleSeen(plant.id)}
         title={seen ? "Marquer comme non vue" : "Marquer comme vue"}
-        className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-lg transition ${
+        className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-base transition ${
           seen
             ? "bg-[var(--accent)] text-white"
             : "bg-[var(--paper-sunken)] text-[var(--text-muted)] hover:text-[var(--text)]"
         }`}
       >
-        {seen ? "✓" : "○"}
+        {seen ? "👁" : "○"}
       </button>
 
       <Link to={`/plante/${plant.id}`} className="flex flex-col gap-3 pr-8">
@@ -45,7 +44,6 @@ export function PlantCard({ plant }: { plant: Plant }) {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <RarityBadge rarity={plant.rarity} />
-          {seen && <SeenBadge />}
         </div>
       </Link>
     </div>
