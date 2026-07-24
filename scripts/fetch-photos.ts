@@ -46,15 +46,19 @@ const USER_AGENT =
 const FORCE = process.argv.includes("--force");
 const VERBOSE = process.argv.includes("--verbose");
 const LANGS = ["fr", "en"] as const;
-const MIN_REQUEST_GAP_MS = 250;
+const MAX_GAP_MS = 8000;
 
-// --- A small global rate limiter shared by every request this script makes ---
+// --- A small global rate limiter shared by every request this script makes.
+// Unlike a fixed retry, this one permanently slows down (adaptive backoff)
+// once it gets throttled, instead of immediately hammering the next request
+// at full speed and just tripping the same limit again a moment later. ---
 
+let currentGapMs = 300;
 let lastRequestAt = 0;
 let rateLimitHits = 0;
 
-async function politeFetch(url: string, retriesLeft = 2): Promise<Response> {
-  const wait = lastRequestAt + MIN_REQUEST_GAP_MS - Date.now();
+async function politeFetch(url: string, retriesLeft = 5): Promise<Response> {
+  const wait = lastRequestAt + currentGapMs - Date.now();
   if (wait > 0) await new Promise((r) => setTimeout(r, wait));
   lastRequestAt = Date.now();
 
@@ -64,8 +68,11 @@ async function politeFetch(url: string, retriesLeft = 2): Promise<Response> {
 
   if (res.status === 429 && retriesLeft > 0) {
     rateLimitHits++;
-    const retryAfter = Number(res.headers.get("retry-after")) || 3;
-    if (VERBOSE) console.log(`   ⏳ 429, pause ${retryAfter}s...`);
+    currentGapMs = Math.min(currentGapMs * 2, MAX_GAP_MS);
+    const retryAfter = Number(res.headers.get("retry-after")) || currentGapMs / 1000;
+    console.log(
+      `   ⏳ limitation de débit détectée, ralentissement (pause ${retryAfter}s, délai désormais ${currentGapMs}ms entre requêtes)...`,
+    );
     await new Promise((r) => setTimeout(r, retryAfter * 1000));
     return politeFetch(url, retriesLeft - 1);
   }
@@ -137,10 +144,7 @@ async function findPhoto(queries: string[]): Promise<Found | null> {
 }
 
 async function downloadImage(url: string, destPath: string): Promise<void> {
-  const wait = lastRequestAt + MIN_REQUEST_GAP_MS - Date.now();
-  if (wait > 0) await new Promise((r) => setTimeout(r, wait));
-  lastRequestAt = Date.now();
-  const res = await fetch(url, { headers: { "User-Agent": USER_AGENT } });
+  const res = await politeFetch(url);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const buffer = Buffer.from(await res.arrayBuffer());
   await writeFile(destPath, buffer);
@@ -228,7 +232,8 @@ async function main() {
   console.log(`Échecs : ${failed.length}`);
   if (rateLimitHits > 0) {
     console.log(
-      `⚠️  ${rateLimitHits} pause(s) pour cause de limitation de débit (HTTP 429) — si beaucoup d'échecs, relancez le script plus tard, il reprendra où il s'est arrêté.`,
+      `⚠️  Ralenti ${rateLimitHits} fois par la limitation de débit de Wikipédia (délai final entre requêtes : ${currentGapMs}ms). ` +
+        `S'il reste beaucoup d'échecs, relancez simplement le script (il reprend où il s'est arrêté).`,
     );
   }
   if (failed.length) {
