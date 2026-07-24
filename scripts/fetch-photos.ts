@@ -136,10 +136,6 @@ async function findPhoto(queries: string[]): Promise<Found | null> {
   return null;
 }
 
-function upsizeThumbnail(sourceUrl: string, width = 640): string {
-  return sourceUrl.replace(/\/\d+px-/, `/${width}px-`);
-}
-
 async function downloadImage(url: string, destPath: string): Promise<void> {
   const wait = lastRequestAt + MIN_REQUEST_GAP_MS - Date.now();
   if (wait > 0) await new Promise((r) => setTimeout(r, wait));
@@ -212,7 +208,7 @@ async function main() {
     }
 
     try {
-      const imageUrl = upsizeThumbnail(found.summary.thumbnail!.source, 640);
+      const imageUrl = found.summary.thumbnail!.source;
       const ext = extensionFromUrl(imageUrl);
       const filename = `${plant.id}.${ext}`;
       await downloadImage(imageUrl, path.join(PHOTOS_DIR, filename));
