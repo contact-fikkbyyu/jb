@@ -7,6 +7,38 @@ export const ILLUSTRATION_SIZES = {
   lg: { wrap: "h-28 w-28", emoji: "text-5xl", ring: "ring-[3px]" },
 } as const;
 
+function Decoration() {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      aria-hidden="true"
+      className="absolute inset-0 h-full w-full opacity-[0.22] text-[var(--ink)]"
+    >
+      <path
+        d="M50 88 C50 60 50 45 50 15"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M50 62 C38 58 30 48 28 34"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M50 45 C62 41 70 31 72 18"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export function PlantIllustration({
   plant,
   size = "md",
@@ -19,36 +51,24 @@ export function PlantIllustration({
     <div
       className={`relative shrink-0 ${s.wrap} rounded-full bg-gradient-to-br ${CATEGORY_GRADIENT[plant.category]} ${s.ring} ring-[var(--paper-raised)] shadow-[var(--shadow-card)]`}
     >
-      <svg
-        viewBox="0 0 100 100"
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full opacity-[0.22] text-[var(--ink)]"
-      >
-        <path
-          d="M50 88 C50 60 50 45 50 15"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M50 62 C38 58 30 48 28 34"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M50 45 C62 41 70 31 72 18"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-      </svg>
+      <Decoration />
       <span
         className={`absolute inset-0 flex items-center justify-center ${s.emoji} drop-shadow-sm`}
       >
+        {plant.emoji}
+      </span>
+    </div>
+  );
+}
+
+/** Full-width rectangular illustration for the top of a photo-forward card. */
+export function PlantIllustrationCover({ plant }: { plant: Plant }) {
+  return (
+    <div
+      className={`relative h-44 w-full bg-gradient-to-br ${CATEGORY_GRADIENT[plant.category]}`}
+    >
+      <Decoration />
+      <span className="absolute inset-0 flex items-center justify-center text-6xl drop-shadow-sm">
         {plant.emoji}
       </span>
     </div>

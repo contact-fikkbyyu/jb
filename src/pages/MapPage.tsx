@@ -1,10 +1,13 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { locations, distanceKm } from "../data/locations";
 import { plants } from "../data/plants";
 import { CATEGORY_ICON } from "../data/categories";
 import { FranceMap } from "../components/FranceMap";
 import { useGeolocation } from "../hooks/useGeolocation";
+import photoManifest from "../data/photoManifest.json";
+
+const manifest: Record<string, string> = photoManifest;
 
 export function MapPage() {
   const { status, position, error, request } = useGeolocation();
@@ -12,25 +15,41 @@ export function MapPage() {
   const [selectedId, setSelectedId] = useState<string | null>(
     searchParams.get("lieu"),
   );
+  const [autoSelected, setAutoSelected] = useState(false);
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  const plantsByLocation = useMemo(() => {
+    const map: Record<string, typeof plants> = {};
+    for (const loc of locations) {
+      map[loc.id] = plants.filter((p) => p.locationIds.includes(loc.id));
+    }
+    return map;
+  }, []);
 
   const plantCounts = useMemo(() => {
     const counts: Record<string, number> = {};
-    for (const loc of locations) {
-      counts[loc.id] = plants.filter((p) => p.locationIds.includes(loc.id))
-        .length;
-    }
+    for (const loc of locations) counts[loc.id] = plantsByLocation[loc.id].length;
     return counts;
-  }, []);
+  }, [plantsByLocation]);
 
   const categoriesByLocation = useMemo(() => {
     const map: Record<string, Set<string>> = {};
     for (const loc of locations) {
-      map[loc.id] = new Set(
-        plants.filter((p) => p.locationIds.includes(loc.id)).map((p) => p.category),
-      );
+      map[loc.id] = new Set(plantsByLocation[loc.id].map((p) => p.category));
     }
     return map;
-  }, []);
+  }, [plantsByLocation]);
+
+  const photosByLocation = useMemo(() => {
+    const map: Record<string, string[]> = {};
+    for (const loc of locations) {
+      map[loc.id] = plantsByLocation[loc.id]
+        .map((p) => manifest[p.id])
+        .filter((url): url is string => Boolean(url))
+        .slice(0, 4);
+    }
+    return map;
+  }, [plantsByLocation]);
 
   const sortedLocations = useMemo(() => {
     if (!position) return locations;
@@ -38,6 +57,24 @@ export function MapPage() {
       (a, b) => distanceKm(position, a) - distanceKm(position, b),
     );
   }, [position]);
+
+  // Once geolocated, jump to the nearest garden — unless the visitor already
+  // picked one themselves (e.g. via a link or a map click).
+  useEffect(() => {
+    if (position && !selectedId && !autoSelected) {
+      setSelectedId(sortedLocations[0]?.id ?? null);
+      setAutoSelected(true);
+    }
+  }, [position, selectedId, autoSelected, sortedLocations]);
+
+  useEffect(() => {
+    if (selectedId) {
+      cardRefs.current[selectedId]?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  }, [selectedId]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -89,11 +126,15 @@ export function MapPage() {
         {sortedLocations.map((loc) => {
           const count = plantCounts[loc.id] ?? 0;
           const cats = Array.from(categoriesByLocation[loc.id] ?? []);
+          const photos = photosByLocation[loc.id] ?? [];
           const dist = position ? distanceKm(position, loc) : null;
           const selected = loc.id === selectedId;
           return (
             <div
               key={loc.id}
+              ref={(el) => {
+                cardRefs.current[loc.id] = el;
+              }}
               onClick={() => setSelectedId(loc.id)}
               className={`flex cursor-pointer flex-col gap-2 rounded-2xl border p-4 shadow-[var(--shadow-card)] transition sm:flex-row sm:items-center sm:justify-between ${
                 selected
@@ -116,12 +157,27 @@ export function MapPage() {
                 <p className="mt-1 max-w-md text-sm text-[var(--text)]">
                   {loc.description}
                 </p>
-                <div className="mt-2 flex flex-wrap gap-1 text-base">
-                  {cats.map((c) => (
-                    <span key={c} title={c}>
-                      {CATEGORY_ICON[c as keyof typeof CATEGORY_ICON]}
-                    </span>
-                  ))}
+                <div className="mt-2 flex items-center gap-2">
+                  {photos.length > 0 ? (
+                    <div className="flex -space-x-2">
+                      {photos.map((url, i) => (
+                        <img
+                          key={i}
+                          src={url}
+                          alt=""
+                          className="h-7 w-7 rounded-full object-cover ring-2 ring-[var(--paper-raised)]"
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap gap-1 text-base">
+                      {cats.map((c) => (
+                        <span key={c} title={c}>
+                          {CATEGORY_ICON[c as keyof typeof CATEGORY_ICON]}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
               <Link

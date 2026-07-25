@@ -1764,6 +1764,318 @@ export const plants: Plant[] = [
     funFact:
       "Élue « rose préférée du monde » lors d'un concours international en 2006, cette variété grimpante porte le nom du célèbre poète français de la Renaissance.",
   },
+
+  // --- Cactées (suite 4) ---
+  {
+    id: "gymnocalycium",
+    name: "Cactus Lune",
+    latinName: "Gymnocalycium mihanovichii",
+    category: "cactus",
+    locationIds: ["eze-exotique", "rayol"],
+    emoji: "🌵",
+    rarity: "commune",
+    wikipediaTitle: "Gymnocalycium mihanovichii",
+    funFact:
+      "Ses formes mutantes rouges, jaunes ou roses, dépourvues de chlorophylle, sont incapables de survivre seules : elles sont systématiquement greffées sur un porte-greffe vert qui assure leur photosynthèse à leur place.",
+  },
+  {
+    id: "echinopsis",
+    name: "Cactus Oursin",
+    latinName: "Echinopsis sp.",
+    category: "cactus",
+    locationIds: ["eze-exotique", "marseille-borely"],
+    emoji: "🦔",
+    rarity: "peu-commune",
+    wikipediaTitle: "Echinopsis",
+    funFact:
+      "Ses fleurs, parmi les plus grandes de tous les cactus par rapport à la taille de la plante, s'ouvrent brusquement à la tombée de la nuit et se fanent dès le lendemain midi.",
+  },
+
+  // --- Succulentes (suite 4) ---
+  {
+    id: "faucaria",
+    name: "Gueule de Tigre",
+    latinName: "Faucaria tigrina",
+    category: "succulente",
+    locationIds: ["eze-exotique", "rayol"],
+    emoji: "🐯",
+    rarity: "peu-commune",
+    wikipediaTitle: "Faucaria tigrina",
+    funFact:
+      "Ses feuilles bordées de pointes acérées évoquent une mâchoire menaçante, mais ce ne sont que des leurres inoffensifs et parfaitement mous, destinés à dissuader les herbivores.",
+  },
+  {
+    id: "stapelia",
+    name: "Fleur Étoile de Mer",
+    latinName: "Stapelia sp.",
+    category: "succulente",
+    locationIds: ["eze-exotique", "rayol"],
+    emoji: "⭐",
+    rarity: "rare",
+    wikipediaTitle: "Stapelia",
+    funFact:
+      "Sa grande fleur en forme d'étoile imite l'odeur de la viande en décomposition pour attirer les mouches, l'un des exemples les plus convaincants de mimétisme charognard chez les plantes.",
+  },
+
+  // --- Palmiers (suite 4) ---
+  {
+    id: "palmier-huile",
+    name: "Palmier à Huile",
+    latinName: "Elaeis guineensis",
+    category: "palmier",
+    locationIds: ["rayol", "eze-exotique"],
+    emoji: "🌴",
+    rarity: "commune",
+    wikipediaTitle: "Elaeis guineensis",
+    funFact:
+      "C'est la source de l'huile végétale la plus produite au monde : on la retrouve dans près de la moitié des produits emballés vendus en supermarché.",
+  },
+  {
+    id: "raphia",
+    name: "Palmier Raphia",
+    latinName: "Raphia sp.",
+    category: "palmier",
+    locationIds: ["rothschild-ephrussi", "rayol"],
+    emoji: "🌴",
+    rarity: "rare",
+    wikipediaTitle: "Raphia",
+    funFact:
+      "Il produit les plus longues feuilles de tout le règne végétal, pouvant dépasser 25 mètres de longueur.",
+  },
+
+  // --- Méditerranéenne (suite 4) ---
+  {
+    id: "caprier",
+    name: "Câprier",
+    latinName: "Capparis spinosa",
+    category: "mediterraneenne",
+    locationIds: ["montpellier-jdp", "menton-madone"],
+    emoji: "🌿",
+    rarity: "peu-commune",
+    wikipediaTitle: "Câprier",
+    funFact:
+      "Les câpres vendues en bocal sont en réalité ses boutons floraux, cueillis à la main avant qu'ils n'aient eu le temps de s'ouvrir en fleur.",
+  },
+  {
+    id: "immortelle",
+    name: "Immortelle",
+    latinName: "Helichrysum italicum",
+    category: "mediterraneenne",
+    locationIds: ["montpellier-jdp", "rayol"],
+    emoji: "💛",
+    rarity: "peu-commune",
+    wikipediaTitle: "Hélichryse italienne",
+    funFact:
+      "Ses fleurs conservent leur couleur et leur forme pendant des années après avoir été coupées et séchées, ce qui lui a valu son nom.",
+  },
+
+  // --- Tropicale & exotique (suite 4) ---
+  {
+    id: "calathea",
+    name: "Calathéa",
+    latinName: "Calathea sp.",
+    category: "tropicale",
+    locationIds: ["lyon-tdo", "paris-jdp"],
+    emoji: "🌿",
+    rarity: "commune",
+    wikipediaTitle: "Calathea",
+    funFact:
+      "Surnommée « plante de la prière », ses feuilles se replient verticalement chaque soir et s'ouvrent à nouveau le matin, suivant un rythme circadien précis.",
+  },
+  {
+    id: "bougainvillier",
+    name: "Bougainvillier",
+    latinName: "Bougainvillea sp.",
+    category: "tropicale",
+    locationIds: ["rayol", "eze-exotique"],
+    emoji: "💜",
+    rarity: "commune",
+    wikipediaTitle: "Bougainvillier",
+    funFact:
+      "Ses éclatantes « fleurs » colorées sont en réalité des bractées, de simples feuilles modifiées : les véritables fleurs sont les minuscules tubes blancs cachés en leur centre.",
+  },
+
+  // --- Japonaise (suite 4) ---
+  {
+    id: "pin-blanc-japon",
+    name: "Pin Blanc du Japon",
+    latinName: "Pinus parviflora",
+    category: "japonaise",
+    locationIds: ["maulevrier-oriental", "vincennes-floral"],
+    emoji: "🌲",
+    rarity: "peu-commune",
+    wikipediaTitle: "Pinus parviflora",
+    funFact:
+      "Sujet favori de l'art du bonsaï, il est prisé pour ses aiguilles bleu-vert soyeuses, regroupées par bouquets de cinq.",
+  },
+  {
+    id: "fusain-japon",
+    name: "Fusain du Japon",
+    latinName: "Euonymus japonicus",
+    category: "japonaise",
+    locationIds: ["maulevrier-oriental", "paris-jdp"],
+    emoji: "🌿",
+    rarity: "commune",
+    wikipediaTitle: "Euonymus japonicus",
+    funFact:
+      "Traditionnellement taillé en haies denses dans les jardins japonais, son bois servait autrefois à fabriquer les chevilles des sandales traditionnelles.",
+  },
+
+  // --- Alpine (suite 4) ---
+  {
+    id: "silene-acaule",
+    name: "Silène Acaule",
+    latinName: "Silene acaulis",
+    category: "alpine",
+    locationIds: ["lautaret"],
+    emoji: "🌸",
+    rarity: "rare",
+    wikipediaTitle: "Silene acaulis",
+    funFact:
+      "Elle forme des coussins compacts qui peuvent mettre plus de 100 ans à atteindre la taille d'une assiette, poussant à peine de quelques millimètres par an.",
+  },
+  {
+    id: "pulsatille-alpine",
+    name: "Anémone des Alpes",
+    latinName: "Pulsatilla alpina",
+    category: "alpine",
+    locationIds: ["lautaret", "paris-jdp"],
+    emoji: "🤍",
+    rarity: "peu-commune",
+    wikipediaTitle: "Pulsatilla alpina",
+    funFact:
+      "Ses boutons floraux sont couverts d'un fin duvet argenté qui emprisonne une couche d'air chaud, agissant comme une minuscule serre naturelle.",
+  },
+
+  // --- Aromatique & médicinale (suite 4) ---
+  {
+    id: "estragon",
+    name: "Estragon",
+    latinName: "Artemisia dracunculus",
+    category: "aromatique",
+    locationIds: ["montpellier-jdp", "paris-jdp"],
+    emoji: "🌿",
+    rarity: "peu-commune",
+    wikipediaTitle: "Estragon",
+    funFact:
+      "La variété française est stérile et ne produit aucune graine viable : chaque plant cultivé aujourd'hui descend uniquement de siècles de boutures successives.",
+  },
+  {
+    id: "coriandre",
+    name: "Coriandre",
+    latinName: "Coriandrum sativum",
+    category: "aromatique",
+    locationIds: ["montpellier-jdp", "paris-jdp"],
+    emoji: "🌿",
+    rarity: "commune",
+    wikipediaTitle: "Coriandre",
+    funFact:
+      "Une simple variation génétique détermine si une personne perçoit ses feuilles comme fraîches et citronnées, ou au contraire avec un net goût de savon.",
+  },
+
+  // --- Orchidées (suite 4) ---
+  {
+    id: "angraecum",
+    name: "Étoile de Madagascar",
+    latinName: "Angraecum sesquipedale",
+    category: "orchidee",
+    locationIds: ["paris-jdp", "lyon-tdo"],
+    emoji: "🤍",
+    rarity: "rare",
+    wikipediaTitle: "Angraecum sesquipedale",
+    funFact:
+      "Son éperon à nectar mesure près de 30 cm de long, ce qui a conduit Charles Darwin à prédire dès 1862 l'existence d'un papillon de nuit à la trompe tout aussi démesurée — découvert des décennies plus tard.",
+  },
+  {
+    id: "bulbophyllum",
+    name: "Bulbophyllum",
+    latinName: "Bulbophyllum sp.",
+    category: "orchidee",
+    locationIds: ["lyon-tdo", "paris-jdp"],
+    emoji: "🦋",
+    rarity: "peu-commune",
+    wikipediaTitle: "Bulbophyllum",
+    funFact:
+      "C'est le plus grand genre d'orchidées au monde avec plus de 2000 espèces, dont certaines dégagent une odeur de chair en décomposition pour attirer les mouches pollinisatrices.",
+  },
+
+  // --- Carnivores (suite 4) ---
+  {
+    id: "genlisea",
+    name: "Plante Tire-Bouchon",
+    latinName: "Genlisea sp.",
+    category: "carnivore",
+    locationIds: ["brest-cbn"],
+    emoji: "🌀",
+    rarity: "rare",
+    wikipediaTitle: "Genlisea",
+    funFact:
+      "Ses feuilles souterraines forment des pièges spiralés sous-marins qui canalisent les micro-organismes dans un seul sens, rendant tout retour en arrière impossible.",
+  },
+  {
+    id: "darlingtonia",
+    name: "Plante Cobra",
+    latinName: "Darlingtonia californica",
+    category: "carnivore",
+    locationIds: ["brest-cbn"],
+    emoji: "🐍",
+    rarity: "rare",
+    wikipediaTitle: "Darlingtonia californica",
+    funFact:
+      "Ses feuilles translucides en forme de capuchon trompent les insectes piégés en leur faisant croire à une sortie, les épuisant jusqu'à ce qu'ils tombent dans le liquide digestif.",
+  },
+
+  // --- Aquatique (suite 4) ---
+  {
+    id: "elodee-canada",
+    name: "Élodée du Canada",
+    latinName: "Elodea canadensis",
+    category: "aquatique",
+    locationIds: ["giverny", "vincennes-floral"],
+    emoji: "🌿",
+    rarity: "commune",
+    wikipediaTitle: "Élodée du Canada",
+    funFact:
+      "Un simple fragment de tige suffit à régénérer une plante entière, ce qui en a fait l'une des espèces aquatiques envahissantes les plus redoutables au monde.",
+  },
+  {
+    id: "jussie",
+    name: "Jussie",
+    latinName: "Ludwigia grandiflora",
+    category: "aquatique",
+    locationIds: ["giverny", "vincennes-floral"],
+    emoji: "💛",
+    rarity: "peu-commune",
+    wikipediaTitle: "Jussie à grandes fleurs",
+    funFact:
+      "Classée parmi les plantes aquatiques les plus envahissantes de France, elle peut former des tapis assez denses pour obstruer entièrement certains cours d'eau.",
+  },
+
+  // --- Roseraie (suite 4) ---
+  {
+    id: "rosier-ispahan",
+    name: "Rosier Ispahan",
+    latinName: "Rosa × damascena 'Ispahan'",
+    category: "rosier",
+    locationIds: ["lyon-tdo", "paris-jdp"],
+    emoji: "🌸",
+    rarity: "peu-commune",
+    wikipediaTitle: "Rosa damascena",
+    funFact:
+      "Cette rose de Damas est toujours cultivée en Iran pour produire eau de rose et essence de rose, selon une tradition vieille de plus de mille ans.",
+  },
+  {
+    id: "rosier-mutabilis",
+    name: "Rosier Mutabilis",
+    latinName: "Rosa chinensis 'Mutabilis'",
+    category: "rosier",
+    locationIds: ["lyon-tdo", "paris-jdp"],
+    emoji: "🌼",
+    rarity: "rare",
+    wikipediaTitle: "Rosa chinensis",
+    funFact:
+      "Ses fleurs changent de couleur en vieillissant, s'ouvrant jaune pâle avant de virer au rose puis au cramoisi profond : un même pied peut ainsi afficher trois couleurs à la fois.",
+  },
 ];
 
 export function findPlant(plantId: string): Plant | undefined {

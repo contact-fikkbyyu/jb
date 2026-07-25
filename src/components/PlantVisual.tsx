@@ -1,6 +1,10 @@
 import { useState } from "react";
 import type { Plant } from "../types";
-import { PlantIllustration, ILLUSTRATION_SIZES } from "./PlantIllustration";
+import {
+  PlantIllustration,
+  PlantIllustrationCover,
+  ILLUSTRATION_SIZES,
+} from "./PlantIllustration";
 import { ImageLightbox } from "./ImageLightbox";
 import photoManifest from "../data/photoManifest.json";
 
@@ -62,5 +66,25 @@ export function PlantVisual({
         />
       )}
     </>
+  );
+}
+
+/** Full-width photo (or illustration fallback) for the top of a card. */
+export function PlantVisualCover({ plant }: { plant: Plant }) {
+  const [errored, setErrored] = useState(false);
+  const photoUrl = manifest[plant.id];
+
+  if (!photoUrl || errored) {
+    return <PlantIllustrationCover plant={plant} />;
+  }
+
+  return (
+    <img
+      src={photoUrl}
+      alt={plant.name}
+      loading="lazy"
+      onError={() => setErrored(true)}
+      className="h-44 w-full object-cover"
+    />
   );
 }

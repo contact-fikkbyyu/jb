@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Location } from "../data/locations";
 import type { GeoPosition } from "../hooks/useGeolocation";
 
@@ -24,6 +25,7 @@ export function FranceMap({
   selectedId: string | null;
   onSelect: (id: string) => void;
 }) {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const maxCount = Math.max(1, ...locations.map((l) => plantCounts[l.id] ?? 0));
 
   const clampedUser =
@@ -105,28 +107,35 @@ export function FranceMap({
         {locations.map((loc) => {
           const { x, y } = project(loc.lat, loc.lng);
           const count = plantCounts[loc.id] ?? 0;
-          const r = 5 + (count / maxCount) * 9;
+          const baseR = 5 + (count / maxCount) * 9;
           const selected = loc.id === selectedId;
+          const hovered = loc.id === hoveredId;
+          const r = hovered && !selected ? baseR + 2 : baseR;
           return (
             <g
               key={loc.id}
               onClick={() => onSelect(loc.id)}
-              className="cursor-pointer"
+              onMouseEnter={() => setHoveredId(loc.id)}
+              onMouseLeave={() => setHoveredId((id) => (id === loc.id ? null : id))}
+              className="cursor-pointer transition-transform"
             >
               <circle
                 cx={x}
                 cy={y}
                 r={r}
                 fill={selected ? "var(--gold)" : "var(--accent)"}
-                fillOpacity={selected ? 0.9 : 0.75}
+                fillOpacity={selected ? 0.9 : hovered ? 0.9 : 0.75}
                 stroke="var(--paper-raised)"
                 strokeWidth="2"
               />
-              {selected && (
+              {(selected || hovered) && (
                 <text
                   x={x}
                   y={y - r - 6}
                   textAnchor="middle"
+                  paintOrder="stroke"
+                  stroke="var(--paper-sunken)"
+                  strokeWidth="4"
                   className="fill-[var(--ink)] font-body text-[11px] font-medium"
                 >
                   {loc.name}
